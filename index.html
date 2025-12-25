@@ -645,7 +645,7 @@
                 this.vy *= 0.997;
 
                 if (this.fuseBurning && !this.exploded && this.cluster === 'bomb') {
-                    this.fuseProgress += 0.016;
+                    this.fuseProgress += 0.035;
                     if (this.fuseProgress >= 1) {
                         this.fuseProgress = 1;
                         this.triggerExplosion();
