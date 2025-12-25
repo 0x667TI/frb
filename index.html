@@ -460,6 +460,15 @@
             id="contractAddress"
             style="cursor:pointer;"
           ></div>
+
+          <!-- GIF GG -->
+          <img
+            id="ggGif"
+            src="gg-pump.gif"
+            alt="GG LET'S PUMP IT BUDDY"
+            style="display:none; margin-top:10px; max-width:100%; border-radius:8px;"
+          />
+
           <button
             id="gameRestartBtn"
             style="
@@ -548,7 +557,7 @@
     class Bubble {
       constructor(data, isBackground = false) {
         this.label = data.label || '';
-        this.value = data.value || 0;
+               this.value = data.value || 0;
         this.radius = data.radius;
         this.x = data.x;
         this.y = data.y;
@@ -1092,6 +1101,7 @@
     const gameResultText = document.getElementById('gameResultText');
     const contractAddressEl = document.getElementById('contractAddress');
     const gameRestartBtn = document.getElementById('gameRestartBtn');
+    const ggGif = document.getElementById('ggGif');
 
     const CONTRACT_ADDRESS = 'So1anaContractAddress1234567890';
 
@@ -1105,7 +1115,7 @@
     const runner = {
       x: 40,
       y: 0,
-      size: 40, // bigger player
+      size: 40,
       vy: 0,
       onGround: false
     };
@@ -1119,7 +1129,7 @@
     let obstacleTimer = 0;
     let obstacleInterval = 1100;
     let speed = 4.2;
-    let nextObstacleType = 0; // 0 = troll, 1 = pepe, 2 = wojak
+    let nextObstacleType = 0;
 
     // Images
     const runnerImg = new Image();
@@ -1168,6 +1178,7 @@
       gameResult.style.display = 'none';
       gameResultText.textContent = '';
       contractAddressEl.textContent = '';
+      if (ggGif) ggGif.style.display = 'none';
 
       obstacles.length = 0;
       obstacleTimer = 0;
@@ -1206,7 +1217,7 @@
     }
 
     function spawnObstacle() {
-      const size = 36; // slightly smaller than player width/height
+      const size = 36;
       const type = nextObstacleType;
       nextObstacleType = (nextObstacleType + 1) % obstacleImgs.length;
 
@@ -1259,6 +1270,7 @@
           gameStatusEl.textContent = 'FAIL';
           gameResult.style.display = 'block';
           gameResultText.textContent = 'You hit an obstacle. Press Restart to try again.';
+          if (ggGif) ggGif.style.display = 'none';
           return;
         }
       }
@@ -1272,8 +1284,13 @@
           runnerWon = true;
           gameStatusEl.textContent = 'GG';
           gameResult.style.display = 'block';
-          gameResultText.textContent = 'Well played! Here is the Contract Address:';
+          gameResultText.textContent = "GG LET'S PUMP IT BUDDY ! Here is the Contract Address:";
           contractAddressEl.textContent = CONTRACT_ADDRESS;
+
+          if (ggGif) {
+            ggGif.style.display = 'block';
+            ggGif.src = 'gg-pump.gif?' + Date.now(); // redémarre l’anim
+          }
         }
       }
     }
@@ -1287,7 +1304,7 @@
       gctx.fillStyle = 'rgba(30, 64, 175, 0.9)';
       gctx.fillRect(0, ground.y, gameCanvas.width, gameCanvas.height - ground.y);
 
-      // Pump.fun pill player (bigger)
+      // player
       if (runnerImg.complete && runnerImg.naturalWidth > 0) {
         gctx.drawImage(runnerImg, runner.x, runner.y, runner.size, runner.size);
       } else {
@@ -1295,36 +1312,31 @@
         gctx.fillRect(runner.x, runner.y, runner.size, runner.size);
       }
 
-      // Meme obstacles
-obstacles.forEach(o => {
-  const img = obstacleImgs[o.type];
+      // obstacles
+      obstacles.forEach(o => {
+        const img = obstacleImgs[o.type];
+        if (img && img.complete && img.naturalWidth > 0) {
+          const baseSize = o.size;
 
-  if (img && img.complete && img.naturalWidth > 0) {
-    const baseSize = o.size;
+          let drawW = baseSize;
+          let drawH = baseSize;
+          let extraYOffset = 0;
 
-    let drawW = baseSize;
-    let drawH = baseSize;
-    let extraYOffset = 0; // décalage vertical
+          if (o.type === 2) { // Wojak un peu plus grand
+            drawW = baseSize * 1.6;
+            drawH = baseSize * 1.6;
+            extraYOffset = 1;
+          }
 
-    if (o.type === 2) {           // 2 = Wojak
-      drawW = baseSize * 1.6;
-      drawH = baseSize * 1.6;
-      extraYOffset = 0;           // pousse l’image un peu vers le bas
-    }
+          const drawX = o.x - (drawW - baseSize) / 2;
+          const drawY = o.y - (drawH - baseSize) + extraYOffset;
 
-    const drawX = o.x - (drawW - baseSize) / 2;
-    const drawY = o.y - (drawH - baseSize) + extraYOffset;
-
-    gctx.drawImage(img, drawX, drawY, drawW, drawH);
-  } else {
-    gctx.fillStyle = '#F97316';
-    gctx.fillRect(o.x, o.y, o.size, o.size);
-  }
-});
-
-
-
-
+          gctx.drawImage(img, drawX, drawY, drawW, drawH);
+        } else {
+          gctx.fillStyle = '#F97316';
+          gctx.fillRect(o.x, o.y, o.size, o.size);
+        }
+      });
     }
 
     let lastRunnerTime = null;
