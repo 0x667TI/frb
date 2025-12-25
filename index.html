@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frbagwork</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #050814;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(5, 8, 20, 0.96);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 20px 40px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-text {
+            background: linear-gradient(90deg, #0055A4 0%, #FFFFFF 50%, #EF4135 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(0, 85, 164, 0.6))
+                    drop-shadow(0 0 40px rgba(239, 65, 53, 0.4));
+        }
+
+        .eiffel-tower {
+            width: 28px;
+            height: 48px;
+            fill: #e5e7eb;
+            stroke: #9ca3af;
+            stroke-width: 1.2;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+        }
+
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .socials {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.45);
+            color: #e5e7eb;
+            transition: background 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+            overflow: hidden;
+        }
+
+        .social-link:hover {
+            background: rgba(30, 64, 175, 0.9);
+            border-color: rgba(191, 219, 254, 0.9);
+            transform: translateY(-1px) scale(1.03);
+        }
+
+        .social-icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .social-img {
+            width: 18px;
+            height: 18px;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* Contrôle volume musique de fond */
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.4);
+        }
+
+        .volume-icon {
+            width: 16px;
+            height: 16px;
+            fill: #e5e7eb;
+        }
+
+        .volume-slider {
+            width: 110px;
+            cursor: pointer;
+        }
+
+        #canvas-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        canvas {
+            display: block;
+            cursor: grab;
+        }
+
+        canvas:active {
+            cursor: grabbing;
+        }
+
+        /* Modal ABOUT */
+
+        .about-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1500;
+        }
+
+        .about-modal {
+            max-width: 720px;
+            max-height: 70vh;
+            background: radial-gradient(circle at top left, #1f2937, #020617);
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.45);
+            padding: 24px 26px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.75);
+            color: #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .about-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .about-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .about-close {
+            border: none;
+            background: transparent;
+            color: #9ca3af;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        .about-content {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-top: 4px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .about-content p {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .eiffel-tower {
+                width: 22px;
+                height: 38px;
+            }
+
+            .social-link {
+                width: 26px;
+                height: 26px;
+            }
+
+            .social-icon,
+            .social-img {
+                width: 16px;
+                height: 16px;
+            }
+
+            .about-modal {
+                max-width: 90vw;
+                max-height: 75vh;
+                padding: 18px 18px;
+            }
+
+            .volume-slider {
+                width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <span class="logo-text">Frbagwork</span>
+            <svg class="eiffel-tower" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                    <path d="M30 350 Q100 260 170 350 L150 350 Q100 290 50 350 Z" />
+                    <rect x="55" y="260" width="90" height="12" rx="2" />
+                    <rect x="70" y="185" width="60" height="10" rx="2" />
+                    <rect x="85" y="120" width="30" height="8" rx="2" />
+                    <path d="M95 120 L70 260 L60 260 L90 110 Z" />
+                    <path d="M105 120 L130 260 L140 260 L110 110 Z" />
+                    <line x1="80" y1="260" x2="120" y2="185" />
+                    <line x1="120" y1="260" x2="80" y2="185" />
+                    <line x1="90" y1="185" x2="110" y2="120" />
+                    <line x1="110" y1="185" x2="90" y2="120" />
+                    <rect x="94" y="90" width="12" height="30" rx="3" />
+                    <line x1="100" y1="60" x2="100" y2="90" />
+                    <circle cx="100" cy="58" r="3" />
+                </g>
+            </svg>
+        </div>
+
+        <div class="right-section">
+            <!-- Volume musique de fond -->
+            <div class="volume-control">
+                <svg class="volume-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 9v6h4l5 4V5L9 9H5z" />
+                </svg>
+                <input
+                    id="bgVolume"
+                    class="volume-slider"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value="0.6"
+                />
+            </div>
+
+            <div class="socials">
+                <!-- X -->
+                <a class="social-link" href="https://x.com/i/communities/1970108948532318479" target="_blank" rel="noopener noreferrer">
+                    <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3 3h4.2l4.1 6.3L15.8 3H21l-7 8.4L21 21h-4.2l-4.3-6.6L8.2 21H3l7-8.6L3 3z" />
+                    </svg>
+                </a>
+
+                <!-- TikTok -->
+                <a class="social-link" href="https://www.tiktok.com/@japansab" target="_blank" rel="noopener noreferrer">
+                    <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M16.5 5.1c.6.8 1.4 1.4 2.3 1.9.5.2 1 .4 1.5.4V11c-1.2 0-2.3-.3-3.4-.9-.5-.3-1-.6-1.4-1v6.2c0 3-2.4 5.5-5.5 5.5S4.5 18.3 4.5 15.2 6.9 9.7 10 9.7c.4 0 .8 0 1.2.1v3.1c-.4-.2-.8-.3-1.2-.3-1.2 0-2.3 1-2.3 2.5 0 1.4 1.1 2.5 2.4 2.5 1.3 0 2.4-1.1 2.4-2.5V3h3c.1.8.4 1.5.8 2.1z" />
+                    </svg>
+                </a>
+
+                <!-- Pump.fun -->
+                <a class="social-link" href="https://pump.fun/" target="_blank" rel="noopener noreferrer">
+                    <img src="pump-logo.png" alt="pump.fun" class="social-img">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Modal ABOUT -->
+    <div class="about-overlay" id="aboutOverlay">
+        <div class="about-modal">
+            <div class="about-header">
+                <div class="about-title">About</div>
+                <button class="about-close" id="aboutCloseBtn">✕</button>
+            </div>
+            <div class="about-content">
+                <p>This token is not just a crypto project — it’s a 24/7 live experience.</p>
+                <p>We are launching a non-stop livestream, running 24 hours a day, where the community directly shapes what happens next. At every new market cap milestone, a brand-new challenge is unlocked. And the higher the market cap grows, the crazier, bolder, and more unforgettable the challenges become.</p>
+                <p>Expect never-seen-before challenges, massive giveaways, and surprise guest appearances. Everything happens live, in France, with one goal: to create an iconic, legendary, and memorable live event powered by the community.</p>
+                <p>A portion of the project’s reward fees will be:<br>
+                • Redistributed through giveaways<br>
+                • Used for buybacks &amp; burns<br>
+                • Invested into boosts to fuel growth and momentum</p>
+                <p>This is more than a token.<br>
+                This is a live show.<br>
+                This is community-driven chaos.<br>
+                This is an experience you don’t want to miss.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Son d'explosion -->
+    <audio id="explosionSound" src="explosion.mp3" preload="auto"></audio>
+
+    <!-- Musique de fond (se déclenche au 1er clic pour respecter les règles des navigateurs) -->
+    <audio id="bgMusic" src="background.mp3" loop preload="auto"></audio>
+
+    <div id="canvas-container"></div>
+
+    <script>
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('canvas-container');
+        container.appendChild(canvas);
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        const colorPalette = {
+            purple: ['#C084FC', '#A855F7', '#581C87'],
+            pink:   ['#FB37A3', '#EC4899', '#831843'],
+            green:  ['#4ADE80', '#22C55E', '#14532D'],
+            cyan:   ['#22D3EE', '#06B6D4', '#0E7490'],
+            blue:   ['#60A5FA', '#3B82F6', '#1E3A8A'],
+            teal:   ['#2DD4BF', '#14B8A6', '#115E59']
+        };
+
+        const bubbleData = [
+            { label: '$50K',  value: 50000,      radius: 24,  x: 180,  y: 250, color: colorPalette.purple, cluster: 'pair1' },
+            { label: '$100K', value: 100000,     radius: 29,  x: 280,  y: 280, color: colorPalette.purple, cluster: 'pair1' },
+
+            { label: '$500K', value: 500000,     radius: 38,  x: 450,  y: 200, color: colorPalette.pink,   cluster: 'pair2' },
+            { label: '$1M',   value: 1000000,    radius: 44,  x: 580,  y: 240, color: colorPalette.pink,   cluster: 'pair2' },
+
+            { label: '$3M',   value: 3000000,    radius: 50,  x: 500,  y: 400, color: colorPalette.green,  cluster: 'pair3' },
+            { label: '$5M',   value: 5000000,    radius: 56,  x: 650,  y: 420, color: colorPalette.green,  cluster: 'pair3' },
+            { label: '$7M',   value: 7000000,    radius: 61,  x: 580,  y: 540, color: colorPalette.green,  cluster: 'pair3' },
+
+            { label: '$10M',  value: 10000000,   radius: 66,  x: 850,  y: 350, color: colorPalette.cyan,   cluster: 'pair4' },
+            { label: '$15M',  value: 15000000,   radius: 72,  x: 1000, y: 400, color: colorPalette.cyan,   cluster: 'pair4' },
+
+            { label: '$20M',  value: 20000000,   radius: 77,  x: 280,  y: 550, color: colorPalette.blue,   cluster: 'pair5' },
+            { label: '$40M',  value: 40000000,   radius: 86,  x: 450,  y: 630, color: colorPalette.blue,   cluster: 'pair5' },
+
+            { label: '$60M',  value: 60000000,   radius: 93,  x: 900,  y: 600, color: colorPalette.teal,   cluster: 'pair6' },
+            { label: '$100M', value: 100000000,  radius: 104, x: 1100, y: 650, color: colorPalette.teal,   cluster: 'pair6' },
+
+            { label: 'CA',    value: 0,          radius: 50,  x: 720,  y: 320, color: ['#4ADE80', '#22C55E', '#FFFFFF'], cluster: 'ca' },
+
+            { label: 'ABOUT', value: 0,          radius: 54,  x: 350,  y: 360, color: ['#0f172a', '#020617', '#000000'], cluster: 'bomb' }
+        ];
+
+        const connections = [
+            [0, 1],
+            [2, 3],
+            [4, 5], [5, 6],
+            [7, 8],
+            [9, 10],
+            [11, 12]
+        ];
+
+        function withAlpha(hex, alpha) {
+            const a = Math.round(alpha * 255).toString(16).padStart(2, '0');
+            return hex + a;
+        }
+
+        class Bubble {
+            constructor(data, isBackground = false) {
+                this.label = data.label || '';
+                this.value = data.value || 0;
+                this.radius = data.radius;
+                this.x = data.x;
+                this.y = data.y;
+                this.color = data.color;
+                this.cluster = data.cluster || null;
+
+                this.isBackground = isBackground;
+
+                this.vx = isBackground ? 0 : (Math.random() - 0.5) * 0.6;
+                this.vy = isBackground ? 0 : (Math.random() - 0.5) * 0.6;
+
+                this.isDragging = false;
+                this.mass = this.radius;
+                this.floatOffset = Math.random() * Math.PI * 2;
+                this.floatSpeed = isBackground ? 0 : 0.006 + Math.random() * 0.004;
+
+                this.fuseProgress = 0;
+                this.fuseBurning = false;
+                this.exploded = false;
+            }
+
+            draw() {
+                ctx.save();
+
+                if (!this.isBackground) {
+                    ctx.shadowColor = this.cluster === 'bomb'
+                        ? 'rgba(248, 250, 252, 0.18)'
+                        : withAlpha(this.color[0], 0.10);
+                    ctx.shadowBlur  = this.radius * 0.18;
+                } else {
+                    ctx.shadowColor = 'transparent';
+                    ctx.shadowBlur = 0;
+                }
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+
+                if (this.isBackground) {
+                    const grayGradient = ctx.createRadialGradient(
+                        this.x - this.radius * 0.3,
+                        this.y - this.radius * 0.3,
+                        0,
+                        this.x,
+                        this.y,
+                        this.radius
+                    );
+                    grayGradient.addColorStop(0, 'rgba(148, 163, 184, 0.20)');
+                    grayGradient.addColorStop(0.7, 'rgba(148, 163, 184, 0.10)');
+                    grayGradient.addColorStop(1, 'rgba(15, 23, 42, 0.0)');
+
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = grayGradient;
+                    ctx.fill();
+
+                    ctx.strokeStyle = 'rgba(148, 163, 184, 0.20)';
+                    ctx.lineWidth = 0.7;
+                    ctx.stroke();
+                } else if (this.cluster === 'bomb') {
+                    const bombGradient = ctx.createRadialGradient(
+                        this.x - this.radius * 0.35,
+                        this.y - this.radius * 0.35,
+                        this.radius * 0.1,
+                        this.x,
+                        this.y,
+                        this.radius
+                    );
+                    bombGradient.addColorStop(0, 'rgba(75, 85, 99, 0.95)');
+                    bombGradient.addColorStop(0.4, 'rgba(31, 41, 55, 0.98)');
+                    bombGradient.addColorStop(1, 'rgba(15, 23, 42, 1)');
+
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = bombGradient;
+                    ctx.fill();
+
+                    ctx.strokeStyle = 'rgba(15, 23, 42, 1)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    // chapeau
+                    const capR = this.radius * 0.32;
+                    const capY = this.y - this.radius * 0.7;
+                    ctx.beginPath();
+                    ctx.arc(this.x, capY, capR, Math.PI, 2 * Math.PI);
+                    ctx.lineTo(this.x + capR, capY + capR * 0.4);
+                    ctx.lineTo(this.x - capR, capY + capR * 0.4);
+                    ctx.closePath();
+                    ctx.fillStyle = '#020617';
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(148, 163, 184, 0.7)';
+                    ctx.lineWidth = 1.2;
+                    ctx.stroke();
+
+                    // base de la mèche
+                    const fuseBaseX = this.x;
+                    const fuseBaseY = capY - capR * 0.1;
+
+                    const fuseLength = this.radius * 1.2;
+                    const controlX = fuseBaseX + fuseLength * 0.4;
+                    const controlY = fuseBaseY - fuseLength * 0.3;
+                    const endX = fuseBaseX + fuseLength * 0.7;
+                    const endY = fuseBaseY - fuseLength * 0.6;
+
+                    ctx.lineWidth = 5;
+                    ctx.strokeStyle = '#7c2d12';
+                    ctx.beginPath();
+                    ctx.moveTo(fuseBaseX, fuseBaseY);
+                    ctx.quadraticCurveTo(controlX, controlY, endX, endY);
+                    ctx.stroke();
+
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = '#f97316';
+                    ctx.beginPath();
+                    ctx.moveTo(fuseBaseX, fuseBaseY);
+                    ctx.quadraticCurveTo(controlX, controlY, endX, endY);
+                    ctx.stroke();
+
+                    const t = this.fuseProgress;
+                    const flameX =
+                        (1 - t) * (1 - t) * fuseBaseX +
+                        2 * (1 - t) * t * controlX +
+                        t * t * endX;
+                    const flameY =
+                        (1 - t) * (1 - t) * fuseBaseY +
+                        2 * (1 - t) * t * controlY +
+                        t * t * endY;
+
+                    if (this.fuseBurning && !this.exploded) {
+                        const flameR = 7 + Math.sin(Date.now() * 0.025) * 2;
+
+                        const flameGradient = ctx.createRadialGradient(
+                            flameX,
+                            flameY,
+                            0,
+                            flameX,
+                            flameY,
+                            flameR
+                        );
+                        flameGradient.addColorStop(0, 'rgba(254, 249, 195, 1)');
+                        flameGradient.addColorStop(0.5, 'rgba(248, 113, 113, 0.95)');
+                        flameGradient.addColorStop(1, 'rgba(248, 113, 113, 0)');
+
+                        ctx.beginPath();
+                        ctx.arc(flameX, flameY, flameR, 0, Math.PI * 2);
+                        ctx.fillStyle = flameGradient;
+                        ctx.fill();
+                    }
+
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                    ctx.font = `bold ${Math.max(11, this.radius / 3.4)}px -apple-system, sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('ABOUT', this.x, this.y + this.radius * 0.05);
+
+                } else {
+                    const gradient = ctx.createRadialGradient(
+                        this.x - this.radius * 0.38,
+                        this.y - this.radius * 0.38,
+                        this.radius * 0.10,
+                        this.x,
+                        this.y,
+                        this.radius
+                    );
+                    gradient.addColorStop(0,   withAlpha(this.color[0], 0.45));
+                    gradient.addColorStop(0.45, withAlpha(this.color[1], 0.30));
+                    gradient.addColorStop(0.9, withAlpha(this.color[2] || this.color[1], 0.16));
+                    gradient.addColorStop(1,   withAlpha('#000010', 0.36));
+
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+
+                    ctx.shadowColor = 'transparent';
+                    ctx.strokeStyle = 'rgba(248, 250, 252, 0.16)';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+
+                    ctx.restore();
+                    ctx.save();
+
+                    const shadowGradient = ctx.createRadialGradient(
+                        this.x,
+                        this.y + this.radius * 0.45,
+                        0,
+                        this.x,
+                        this.y + this.radius * 0.45,
+                        this.radius * 0.65
+                    );
+                    shadowGradient.addColorStop(0, 'rgba(0, 0, 0, 0.24)');
+                    shadowGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                    ctx.fillStyle = shadowGradient;
+                    ctx.beginPath();
+                    ctx.ellipse(
+                        this.x,
+                        this.y + this.radius * 0.45,
+                        this.radius * 0.5,
+                        this.radius * 0.22,
+                        0,
+                        0,
+                        Math.PI * 2
+                    );
+                    ctx.fill();
+                    ctx.restore();
+
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+                    ctx.font = `bold ${Math.max(10, this.radius / 3.5)}px -apple-system, sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(this.label, this.x, this.y);
+                }
+
+                ctx.restore();
+            }
+
+            update() {
+                if (this.isBackground || this.isDragging) return;
+
+                this.floatOffset += this.floatSpeed;
+                const floatX = Math.sin(this.floatOffset) * 0.25;
+                const floatY = Math.cos(this.floatOffset * 0.9) * 0.25;
+
+                if (!this.exploded || this.cluster !== 'bomb') {
+                    this.x += this.vx + floatX;
+                    this.y += this.vy + floatY;
+                }
+
+                const navHeight = 80;
+                if (this.x - this.radius < 0) {
+                    this.x = this.radius;
+                    this.vx *= -0.8;
+                }
+                if (this.x + this.radius > width) {
+                    this.x = width - this.radius;
+                    this.vx *= -0.8;
+                }
+                if (this.y - this.radius < navHeight) {
+                    this.y = navHeight + this.radius;
+                    this.vy *= -0.8;
+                }
+                if (this.y + this.radius > height) {
+                    this.y = height - this.radius;
+                    this.vy *= -0.8;
+                }
+
+                this.vx *= 0.997;
+                this.vy *= 0.997;
+
+                if (this.fuseBurning && !this.exploded && this.cluster === 'bomb') {
+                    this.fuseProgress += 0.016;
+                    if (this.fuseProgress >= 1) {
+                        this.fuseProgress = 1;
+                        this.triggerExplosion();
+                    }
+                }
+            }
+
+            contains(mx, my) {
+                if (this.isBackground) return false;
+                const dx = mx - this.x;
+                const dy = my - this.y;
+                return dx * dx + dy * dy < this.radius * this.radius;
+            }
+
+            triggerExplosion() {
+                if (this.exploded) return;
+                this.exploded = true;
+                createExplosion(this.x, this.y, this.radius);
+                const audio = document.getElementById('explosionSound');
+                if (audio) {
+                    audio.currentTime = 0;
+                    audio.play().catch(() => {});
+                }
+                showAboutModal();
+            }
+        }
+
+        const mainBubbles = bubbleData.map(data => new Bubble(data, false));
+
+        const backgroundBubbles = [];
+        const backgroundCount = 160;
+        const navHeight = 80;
+
+        function isFarFromMain(x, y, r) {
+            for (const b of mainBubbles) {
+                const dx = x - b.x;
+                const dy = y - b.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < b.radius + r + 12) return false;
+            }
+            return true;
+        }
+
+        for (let i = 0; i < backgroundCount; i++) {
+            let placed = false;
+            let tries = 0;
+            while (!placed && tries < 40) {
+                const r = (5 + Math.random() * 9) * 1.4;
+                const x = Math.random() * width;
+                const y = navHeight + Math.random() * (height - navHeight);
+                if (isFarFromMain(x, y, r)) {
+                    backgroundBubbles.push(
+                        new Bubble({
+                            label: '',
+                            value: 0,
+                            radius: r,
+                            x,
+                            y,
+                            color: null,
+                            cluster: null
+                        }, true)
+                    );
+                    placed = true;
+                }
+                tries++;
+            }
+        }
+
+        const explosionParticles = [];
+
+        function createExplosion(x, y, radius) {
+            const count = 26;
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.PI * 2 * i) / count;
+                const speed = 2 + Math.random() * 3;
+                explosionParticles.push({
+                    x,
+                    y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    life: 1,
+                    size: 4 + Math.random() * 3,
+                    color: i % 2 === 0 ? '#fde68a' : '#fb7185'
+                });
+            }
+        }
+
+        function drawExplosions() {
+            for (let i = explosionParticles.length - 1; i >= 0; i--) {
+                const p = explosionParticles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vx *= 0.98;
+                p.vy *= 0.98;
+                p.life -= 0.03;
+                if (p.life <= 0) {
+                    explosionParticles.splice(i, 1);
+                    continue;
+                }
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, p.life);
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function drawConnections() {
+            ctx.save();
+            ctx.strokeStyle = 'rgba(148, 163, 184, 0.30)';
+            ctx.lineWidth = 1.1;
+            ctx.setLineDash([5, 5]);
+
+            connections.forEach(([i, j]) => {
+                const b1 = mainBubbles[i];
+                const b2 = mainBubbles[j];
+
+                const dx = b2.x - b1.x;
+                const dy = b2.y - b1.y;
+                const angle = Math.atan2(dy, dx);
+
+                const x1 = b1.x + Math.cos(angle) * b1.radius;
+                const y1 = b1.y + Math.sin(angle) * b1.radius;
+                const x2 = b2.x - Math.cos(angle) * b2.radius;
+                const y2 = b2.y - Math.sin(angle) * b2.radius;
+
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+
+                const arrowSize = 7;
+                ctx.fillStyle = 'rgba(148, 163, 184, 0.45)';
+                ctx.beginPath();
+                ctx.moveTo(x2, y2);
+                ctx.lineTo(
+                    x2 - arrowSize * Math.cos(angle - Math.PI / 6),
+                    y2 - arrowSize * Math.sin(angle - Math.PI / 6)
+                );
+                ctx.lineTo(
+                    x2 - arrowSize * Math.cos(angle + Math.PI / 6),
+                    y2 - arrowSize * Math.sin(angle + Math.PI / 6)
+                );
+                ctx.closePath();
+                ctx.fill();
+            });
+
+            ctx.setLineDash([]);
+            ctx.restore();
+        }
+
+        function checkCollisions() {
+            for (let i = 0; i < mainBubbles.length; i++) {
+                for (let j = i + 1; j < mainBubbles.length; j++) {
+                    const b1 = mainBubbles[i];
+                    const b2 = mainBubbles[j];
+
+                    const dx = b2.x - b1.x;
+                    const dy = b2.y - b1.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const minDist = b1.radius + b2.radius;
+
+                    if (distance < minDist) {
+                        const angle = Math.atan2(dy, dx);
+                        const overlap = minDist - distance;
+
+                        const moveX = Math.cos(angle) * overlap * 0.5;
+                        const moveY = Math.sin(angle) * overlap * 0.5;
+
+                        if (!b1.isDragging) {
+                            b1.x -= moveX;
+                            b1.y -= moveY;
+                            b1.vx -= moveX * 0.08;
+                            b1.vy -= moveY * 0.08;
+                        }
+                        if (!b2.isDragging) {
+                            b2.x += moveX;
+                            b2.y += moveY;
+                            b2.vx += moveX * 0.08;
+                            b2.vy += moveY * 0.08;
+                        }
+                    }
+                }
+            }
+        }
+
+        let draggedBubble = null;
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+
+        function startDrag(mouseX, mouseY) {
+            const all = [...backgroundBubbles, ...mainBubbles];
+            for (let i = all.length - 1; i >= 0; i--) {
+                if (all[i].contains(mouseX, mouseY)) {
+                    draggedBubble = all[i];
+                    draggedBubble.isDragging = true;
+                    lastMouseX = mouseX;
+                    lastMouseY = mouseY;
+
+                    const mainIndex = mainBubbles.indexOf(draggedBubble);
+                    if (mainIndex !== -1) {
+                        connections.forEach(([idx1, idx2]) => {
+                            if (idx1 === mainIndex || idx2 === mainIndex) {
+                                mainBubbles[idx1].isDragging = true;
+                                mainBubbles[idx2].isDragging = true;
+                            }
+                        });
+                    }
+                    break;
+                }
+            }
+        }
+
+        function moveDrag(mouseX, mouseY) {
+            if (!draggedBubble) return;
+
+            const deltaX = mouseX - lastMouseX;
+            const deltaY = mouseY - lastMouseY;
+
+            draggedBubble.x = mouseX;
+            draggedBubble.y = mouseY;
+            draggedBubble.vx = deltaX * 0.8;
+            draggedBubble.vy = deltaY * 0.8;
+
+            const mainIndex = mainBubbles.indexOf(draggedBubble);
+            if (mainIndex !== -1) {
+                connections.forEach(([idx1, idx2]) => {
+                    const b1 = mainBubbles[idx1];
+                    const b2 = mainBubbles[idx2];
+
+                    if (b1.isDragging || b2.isDragging) {
+                        if (b1.isDragging && b1 !== draggedBubble) {
+                            b1.x += deltaX;
+                            b1.y += deltaY;
+                            b1.vx = deltaX * 0.8;
+                            b1.vy = deltaY * 0.8;
+                        }
+                        if (b2.isDragging && b2 !== draggedBubble) {
+                            b2.x += deltaX;
+                            b2.y += deltaY;
+                            b2.vx = deltaX * 0.8;
+                            b2.vy = deltaY * 0.8;
+                        }
+                    }
+                });
+            }
+
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+        }
+
+        function endDrag() {
+            if (draggedBubble) {
+                [...backgroundBubbles, ...mainBubbles].forEach(b => b.isDragging = false);
+                draggedBubble = null;
+            }
+        }
+
+        const aboutOverlay = document.getElementById('aboutOverlay');
+        const aboutCloseBtn = document.getElementById('aboutCloseBtn');
+
+        function showAboutModal() {
+            aboutOverlay.style.display = 'flex';
+        }
+
+        function hideAboutModal() {
+            aboutOverlay.style.display = 'none';
+        }
+
+        aboutCloseBtn.addEventListener('click', hideAboutModal);
+        aboutOverlay.addEventListener('click', (e) => {
+            if (e.target === aboutOverlay) hideAboutModal();
+        });
+
+        // Musique de fond + slider volume
+        const bgMusic = document.getElementById('bgMusic');
+        const bgVolume = document.getElementById('bgVolume');
+        let bgMusicStarted = false;
+
+        bgVolume.addEventListener('input', () => {
+            bgMusic.volume = parseFloat(bgVolume.value || '0');
+        });
+
+        function startBgMusicOnce() {
+            if (bgMusicStarted) return;
+            bgMusicStarted = true;
+            bgMusic.volume = parseFloat(bgVolume.value || '0.6');
+            bgMusic.play().catch(() => {});
+        }
+
+        function handleClick(e) {
+            startBgMusicOnce(); // 1er clic → autorise la lecture de la musique
+
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+            const mouseY = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+
+            const bomb = mainBubbles.find(b => b.cluster === 'bomb');
+            if (bomb && bomb.contains(mouseX, mouseY)) {
+                if (!bomb.fuseBurning && !bomb.exploded) {
+                    bomb.fuseBurning = true;
+                    bomb.fuseProgress = 0;
+                } else if (bomb.exploded) {
+                    showAboutModal();
+                }
+                return;
+            }
+
+            if (!e.touches && e.type === 'mousedown') {
+                startDrag(mouseX, mouseY);
+            } else if (e.touches && e.type === 'touchstart') {
+                startDrag(mouseX, mouseY);
+            }
+        }
+
+        canvas.addEventListener('mousedown', handleClick);
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            handleClick(e);
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            moveDrag(mouseX, mouseY);
+        });
+
+        canvas.addEventListener('mouseup', endDrag);
+        canvas.addEventListener('mouseleave', endDrag);
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            const mouseX = touch.clientX - rect.left;
+            const mouseY = touch.clientY - rect.top;
+            moveDrag(mouseX, mouseY);
+        });
+
+        canvas.addEventListener('touchend', endDrag);
+        canvas.addEventListener('touchcancel', endDrag);
+
+        function animate() {
+            ctx.fillStyle = '#050814';
+            ctx.fillRect(0, 0, width, height);
+
+            drawConnections();
+            checkCollisions();
+
+            backgroundBubbles.forEach(b => {
+                b.update();
+                b.draw();
+            });
+
+            mainBubbles.forEach(b => {
+                b.update();
+                b.draw();
+            });
+
+            drawExplosions();
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        animate();
+    </script>
+</body>
+</html>
