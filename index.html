@@ -330,7 +330,7 @@
     <!-- Son d'explosion -->
     <audio id="explosionSound" src="explosion.mp3" preload="auto"></audio>
 
-    <!-- Musique de fond (se déclenche au 1er clic pour respecter les règles des navigateurs) -->
+    <!-- Musique de fond -->
     <audio id="bgMusic" src="background.mp3" loop preload="auto"></audio>
 
     <div id="canvas-container"></div>
@@ -475,7 +475,6 @@
                     ctx.lineWidth = 2;
                     ctx.stroke();
 
-                    // chapeau
                     const capR = this.radius * 0.32;
                     const capY = this.y - this.radius * 0.7;
                     ctx.beginPath();
@@ -489,39 +488,56 @@
                     ctx.lineWidth = 1.2;
                     ctx.stroke();
 
-                    // base de la mèche
+                    // mèche courbe (en S)
                     const fuseBaseX = this.x;
                     const fuseBaseY = capY - capR * 0.1;
 
-                    const fuseLength = this.radius * 1.2;
-                    const controlX = fuseBaseX + fuseLength * 0.4;
-                    const controlY = fuseBaseY - fuseLength * 0.3;
-                    const endX = fuseBaseX + fuseLength * 0.7;
-                    const endY = fuseBaseY - fuseLength * 0.6;
+                    const fuseLength = this.radius * 1.4;
+                    const mid1X = fuseBaseX + fuseLength * 0.25;
+                    const mid1Y = fuseBaseY - fuseLength * 0.15;
+                    const mid2X = fuseBaseX + fuseLength * 0.55;
+                    const mid2Y = fuseBaseY - fuseLength * 0.05;
+                    const endX  = fuseBaseX + fuseLength * 0.8;
+                    const endY  = fuseBaseY - fuseLength * 0.55;
 
-                    ctx.lineWidth = 5;
+                    // contour sombre
+                    ctx.lineWidth = 6;
                     ctx.strokeStyle = '#7c2d12';
                     ctx.beginPath();
                     ctx.moveTo(fuseBaseX, fuseBaseY);
-                    ctx.quadraticCurveTo(controlX, controlY, endX, endY);
+                    ctx.bezierCurveTo(
+                        mid1X, mid1Y,
+                        mid2X, mid2Y,
+                        endX,  endY
+                    );
                     ctx.stroke();
 
-                    ctx.lineWidth = 3;
+                    // intérieur orange
+                    ctx.lineWidth = 4;
                     ctx.strokeStyle = '#f97316';
                     ctx.beginPath();
                     ctx.moveTo(fuseBaseX, fuseBaseY);
-                    ctx.quadraticCurveTo(controlX, controlY, endX, endY);
+                    ctx.bezierCurveTo(
+                        mid1X, mid1Y,
+                        mid2X, mid2Y,
+                        endX,  endY
+                    );
                     ctx.stroke();
 
+                    // flamme le long de la Bézier (t = fuseProgress)
                     const t = this.fuseProgress;
+
                     const flameX =
-                        (1 - t) * (1 - t) * fuseBaseX +
-                        2 * (1 - t) * t * controlX +
-                        t * t * endX;
+                        Math.pow(1 - t, 3) * fuseBaseX +
+                        3 * Math.pow(1 - t, 2) * t * mid1X +
+                        3 * (1 - t) * t * t * mid2X +
+                        Math.pow(t, 3) * endX;
+
                     const flameY =
-                        (1 - t) * (1 - t) * fuseBaseY +
-                        2 * (1 - t) * t * controlY +
-                        t * t * endY;
+                        Math.pow(1 - t, 3) * fuseBaseY +
+                        3 * Math.pow(1 - t, 2) * t * mid1Y +
+                        3 * (1 - t) * t * t * mid2Y +
+                        Math.pow(t, 3) * endY;
 
                     if (this.fuseBurning && !this.exploded) {
                         const flameR = 7 + Math.sin(Date.now() * 0.025) * 2;
@@ -644,8 +660,9 @@
                 this.vx *= 0.997;
                 this.vy *= 0.997;
 
+                // mèche très rapide
                 if (this.fuseBurning && !this.exploded && this.cluster === 'bomb') {
-                    this.fuseProgress += 0.035;
+                    this.fuseProgress += 0.032;
                     if (this.fuseProgress >= 1) {
                         this.fuseProgress = 1;
                         this.triggerExplosion();
@@ -922,24 +939,43 @@
             if (e.target === aboutOverlay) hideAboutModal();
         });
 
-        // Musique de fond + slider volume
+        // Musique de fond + slider volume (desktop/Android = vrai volume, iOS = mute/unmute)
         const bgMusic = document.getElementById('bgMusic');
         const bgVolume = document.getElementById('bgVolume');
         let bgMusicStarted = false;
 
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; // iOS détecté[web:446]
+
         bgVolume.addEventListener('input', () => {
-            bgMusic.volume = parseFloat(bgVolume.value || '0');
+            const v = parseFloat(bgVolume.value || '0');
+
+            if (isIOS) {
+                if (v === 0) {
+                    bgMusic.muted = true;
+                } else {
+                    bgMusic.muted = false;
+                }
+            } else {
+                bgMusic.muted = false;
+                bgMusic.volume = v;
+            }
         });
 
         function startBgMusicOnce() {
             if (bgMusicStarted) return;
             bgMusicStarted = true;
-            bgMusic.volume = parseFloat(bgVolume.value || '0.6');
+
+            const v = parseFloat(bgVolume.value || '0.6');
+            if (isIOS) {
+                bgMusic.muted = (v === 0);
+            } else {
+                bgMusic.volume = v;
+            }
             bgMusic.play().catch(() => {});
         }
 
         function handleClick(e) {
-            startBgMusicOnce(); // 1er clic → autorise la lecture de la musique
+            startBgMusicOnce(); // premier clic → autorise la musique
 
             const rect = canvas.getBoundingClientRect();
             const mouseX = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
