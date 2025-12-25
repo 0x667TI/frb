@@ -34,7 +34,7 @@
     .socials{display:flex;align-items:center;gap:14px;}
     .social-link{
       display:inline-flex;align-items:center;justify-content:center;
-      width:30px;height:30px;border-radius:999px;
+      width:36px;height:36px;border-radius:999px;
       background:rgba(15,23,42,0.8);
       border:1px solid rgba(148,163,184,0.45);
       color:#e5e7eb;
@@ -47,7 +47,7 @@
       transform:translateY(-1px) scale(1.03);
     }
     .social-icon{width:18px;height:18px;fill:currentColor;}
-    .social-img{width:18px;height:18px;display:block;object-fit:contain;}
+    .social-img{width:26px;height:26px;display:block;object-fit:contain;}
 
     .volume-control{
       display:flex;align-items:center;gap:6px;
@@ -62,42 +62,77 @@
     canvas{display:block;cursor:grab;}
     canvas:active{cursor:grabbing;}
 
-    .about-overlay{
-      position:fixed;inset:0;background:rgba(15,23,42,0.75);
-      backdrop-filter:blur(8px);display:none;
-      align-items:center;justify-content:center;z-index:1500;
+    .about-overlay,
+    .snow-overlay,
+    .game-overlay{
+      position:fixed;inset:0;
+      background:rgba(15,23,42,0.80);
+      backdrop-filter:blur(9px);
+      display:none;
+      align-items:center;justify-content:center;
+      z-index:1600;
     }
+
+    .about-overlay{
+      background:rgba(15,23,42,0.75);
+      backdrop-filter:blur(8px);
+      z-index:1500;
+    }
+
+    .about-modal,
+    .snow-modal,
+    .game-modal{
+      background:radial-gradient(circle at top,#111827,#020617);
+      border-radius:18px;
+      border:1px solid rgba(148,163,184,0.55);
+      box-shadow:0 18px 45px rgba(0,0,0,0.8);
+      color:#e5e7eb;
+    }
+
     .about-modal{
       max-width:720px;max-height:70vh;
-      background:radial-gradient(circle at top left,#1f2937,#020617);
-      border-radius:18px;border:1px solid rgba(148,163,184,0.45);
-      padding:24px 26px;box-shadow:0 18px 45px rgba(0,0,0,0.75);
-      color:#e5e7eb;display:flex;flex-direction:column;gap:12px;
+      padding:24px 26px;
+      display:flex;flex-direction:column;gap:12px;
     }
-    .about-header{display:flex;justify-content:space-between;align-items:center;gap:12px;}
-    .about-title{font-size:20px;font-weight:700;}
-    .about-close{border:none;background:transparent;color:#9ca3af;font-size:18px;cursor:pointer;padding:4px 8px;}
+
+    .game-modal{
+      width:min(480px,92vw);
+      padding:18px 18px 20px;
+      display:flex;flex-direction:column;gap:10px;
+    }
+
+    .snow-modal{
+      width:min(420px,90vw);
+      padding:18px 18px 20px;
+      display:flex;flex-direction:column;gap:10px;
+    }
+
+    .about-header,
+    .game-header,
+    .snow-header{
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+    }
+    .about-title,
+    .game-title,
+    .snow-title{
+      font-size:20px;font-weight:700;
+    }
+    .about-close,
+    .game-close,
+    .snow-close{
+      border:none;background:transparent;color:#9ca3af;
+      font-size:18px;cursor:pointer;padding:4px 8px;
+    }
+
     .about-content{font-size:14px;line-height:1.5;margin-top:4px;overflow-y:auto;padding-right:6px;}
     .about-content p{margin-bottom:10px;}
 
-    .game-overlay{
-      position:fixed;inset:0;background:rgba(15,23,42,0.80);
-      backdrop-filter:blur(9px);display:none;
-      align-items:center;justify-content:center;z-index:1600;
-    }
-    .game-modal{
-      width:min(480px,92vw);
-      background:radial-gradient(circle at top,#111827,#020617);
-      border-radius:18px;border:1px solid rgba(148,163,184,0.55);
-      padding:18px 18px 20px;color:#e5e7eb;
-      box-shadow:0 18px 45px rgba(0,0,0,0.8);
-      display:flex;flex-direction:column;gap:10px;
-    }
-    .game-header{display:flex;justify-content:space-between;align-items:center;}
-    .game-title{font-size:18px;font-weight:700;}
-    .game-close{border:none;background:transparent;color:#9ca3af;font-size:18px;cursor:pointer;padding:2px 6px;}
-    .game-body{margin-top:4px;display:flex;flex-direction:column;gap:10px;}
-    .game-instructions{font-size:13px;color:#e5e7eb;}
+    .game-body,
+    .snow-body{margin-top:4px;display:flex;flex-direction:column;gap:10px;}
+
+    .game-instructions,
+    .snow-text{font-size:13px;color:#e5e7eb;}
+
     .game-hud{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#cbd5f5;gap:8px;}
     .game-progress{flex:1;height:6px;border-radius:999px;background:rgba(30,64,175,0.4);overflow:hidden;}
     .game-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#22c55e,#4ade80);transition:width .1s linear;}
@@ -107,12 +142,19 @@
     .game-result{margin-top:8px;font-size:13px;color:#e5e7eb;}
     .game-result-code{margin-top:6px;font-family:monospace;word-break:break-all;}
 
+    .snow-link{
+      font-size:13px;
+      color:#93c5fd;
+      text-decoration:none;
+    }
+    .snow-link:hover{text-decoration:underline;}
+
     @media(max-width:768px){
       nav{padding:15px 20px;}
       .logo{font-size:24px;}
       .eiffel-tower{width:22px;height:38px;}
-      .social-link{width:26px;height:26px;}
-      .social-icon,.social-img{width:16px;height:16px;}
+      .social-link{width:32px;height:32px;}
+      .social-icon,.social-img{width:22px;height:22px;}
       .about-modal{max-width:90vw;max-height:75vh;padding:18px 18px;}
       .volume-slider{width:80px;}
     }
@@ -231,13 +273,31 @@
     </div>
   </div>
 
+  <!-- SNOWBALL modal -->
+  <div class="snow-overlay" id="snowOverlay">
+    <div class="snow-modal">
+      <div class="snow-header">
+        <div class="snow-title">Powered by Snowball</div>
+        <button class="snow-close" id="snowCloseBtn">✕</button>
+      </div>
+      <div class="snow-body">
+        <div class="snow-text">
+          Our Token is powered by Snowball. Every trade using Snowball Bot helps buy and burn $snowball forever.
+        </div>
+        <a class="snow-link" href="https://www.sb.fun/" target="_blank" rel="noopener noreferrer">
+          https://www.sb.fun/
+        </a>
+      </div>
+    </div>
+  </div>
+
   <audio id="explosionSound" src="explosion.mp3" preload="auto"></audio>
   <audio id="bgMusic" src="background.mp3" loop preload="auto"></audio>
+  <audio id="snowSound" src="snow.mp3" loop preload="auto"></audio>
 
   <div id="canvas-container"></div>
 
   <script>
-    /* ---------- MAIN BUBBLES + BACKGROUND ---------- */
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     document.getElementById('canvas-container').appendChild(canvas);
@@ -245,6 +305,28 @@
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
     const navHeight = 80;
+
+    const bgMusic = document.getElementById('bgMusic');
+    const snowSound = document.getElementById('snowSound');
+
+    const snowOverlay = document.getElementById('snowOverlay');
+    const snowCloseBtn = document.getElementById('snowCloseBtn');
+
+    function openSnowOverlay(){
+      snowOverlay.style.display='flex';
+      if(bgMusic && !bgMusic.paused){ bgMusic.pause(); }
+      if(snowSound){
+        snowSound.currentTime = 0;
+        snowSound.play().catch(()=>{});
+      }
+    }
+    function closeSnowOverlay(){
+      snowOverlay.style.display='none';
+      if(snowSound){ snowSound.pause(); }
+      if(bgMusic){ bgMusic.play().catch(()=>{}); }
+    }
+    snowCloseBtn.addEventListener('click', closeSnowOverlay);
+    snowOverlay.addEventListener('click', e=>{ if(e.target===snowOverlay) closeSnowOverlay(); });
 
     const palette = {
       purple:['#C084FC','#A855F7','#581C87'],
@@ -275,6 +357,8 @@
       { label:'$60M',  radius:68, x:900,  y:600, color:palette.teal,   cluster:'pair6'},
       { label:'$100M', radius:72, x:1100, y:650, color:palette.teal,   cluster:'pair6'},
 
+      { label:'', radius:55, x:650, y:230, color:['#e5f2ff','#93c5fd','#1e293b'], cluster:'snow'},
+
       { label:'CA',    radius:48, x:720,  y:320, color:['#4ADE80','#22C55E','#FFFFFF'], cluster:'ca'},
       { label:'ABOUT', radius:50, x:350,  y:360, color:['#0f172a','#020617','#000000'], cluster:'bomb'}
     ];
@@ -299,6 +383,9 @@
       return hex+v;
     }
 
+    const snowballImg = new Image();
+    snowballImg.src = 'boule-de-neige.jpg';
+
     class Bubble{
       constructor(data,isBackground=false){
         this.label=data.label||'';
@@ -307,11 +394,11 @@
         this.color=data.color || ['#9ca3af','#6b7280','#020617'];
         this.cluster=data.cluster||null;
         this.isBackground=isBackground;
-        this.vx=(Math.random()-0.5)*0.4;
-        this.vy=(Math.random()-0.5)*0.4;
+        this.vx=(Math.random()-0.5)*0.15;
+        this.vy=(Math.random()-0.5)*0.15;
         this.isDragging=false;
         this.floatOffset=Math.random()*Math.PI*2;
-        this.floatSpeed=0.006+Math.random()*0.004;
+        this.floatSpeed=0.003+Math.random()*0.002;
         this.fuseProgress=0;
         this.fuseBurning=false;
         this.exploded=false;
@@ -383,6 +470,34 @@
           ctx.restore();return;
         }
 
+        if(this.cluster==='snow'){
+          // pas de contour, juste l'image recoupée dans un cercle
+          const innerR = this.radius;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, innerR, 0, Math.PI*2);
+          ctx.clip();
+
+          if(snowballImg.complete && snowballImg.naturalWidth>0){
+            const size = innerR*2;
+            ctx.drawImage(
+              snowballImg,
+              this.x - size/2,
+              this.y - size/2,
+              size,
+              size
+            );
+          }else{
+            ctx.fillStyle='rgba(248,250,252,0.95)';
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,innerR,0,Math.PI*2);
+            ctx.fill();
+          }
+
+          ctx.restore();
+          return;
+        }
+
         ctx.shadowColor=withAlpha(this.color[0],0.10);
         ctx.shadowBlur=this.radius*0.18;
 
@@ -424,8 +539,8 @@
       update(){
         if(this.isDragging)return;
         this.floatOffset+=this.floatSpeed;
-        const fx=Math.sin(this.floatOffset)*0.25;
-        const fy=Math.cos(this.floatOffset*0.9)*0.25;
+        const fx=Math.sin(this.floatOffset)*0.15;
+        const fy=Math.cos(this.floatOffset*0.9)*0.15;
         this.x+=this.vx+fx;
         this.y+=this.vy+fy;
 
@@ -433,7 +548,7 @@
         if(this.x+this.radius>width){this.x=width-this.radius;this.vx*=-0.8;}
         if(this.y-this.radius<navHeight){this.y=navHeight+this.radius;this.vy*=-0.8;}
         if(this.y+this.radius>height){this.y=height-this.radius;this.vy*=-0.8;}
-        this.vx*=0.997;this.vy*=0.997;
+        this.vx*=0.995;this.vy*=0.995;
 
         if(this.fuseBurning&&!this.exploded&&this.cluster==='bomb'){
           this.fuseProgress+=0.032;
@@ -456,7 +571,6 @@
 
     const mainBubbles=bubbleData.map(d=>new Bubble(d,false));
 
-    /* petites bulles grises réelles (mêmes règles que les grosses) */
     const backgroundBubbles=[];
     const backgroundCount=120;
     function isFarFromMain(x,y,r){
@@ -588,30 +702,25 @@
     }
 
     function checkCollisions(){
-  // 1) collisions uniquement entre GROSSES bulles
-  for(let i=0;i<mainBubbles.length;i++){
-    for(let j=i+1;j<mainBubbles.length;j++){
-      const b1 = mainBubbles[i];
-      const b2 = mainBubbles[j];
-      const dx = b2.x - b1.x;
-      const dy = b2.y - b1.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      const minDist = b1.radius + b2.radius;
-      if(dist < minDist && dist > 0){
-        const ang = Math.atan2(dy, dx);
-        const overlap = minDist - dist;
-        const mx = Math.cos(ang) * overlap * 0.5;
-        const my = Math.sin(ang) * overlap * 0.5;
-        if(!b1.isDragging){ b1.x -= mx; b1.y -= my; b1.vx -= mx * 0.08; b1.vy -= my * 0.08; }
-        if(!b2.isDragging){ b2.x += mx; b2.y += my; b2.vx += mx * 0.08; b2.vy += my * 0.08; }
+      for(let i=0;i<mainBubbles.length;i++){
+        for(let j=i+1;j<mainBubbles.length;j++){
+          const b1 = mainBubbles[i];
+          const b2 = mainBubbles[j];
+          const dx = b2.x - b1.x;
+          const dy = b2.y - b1.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          const minDist = b1.radius + b2.radius;
+          if(dist < minDist && dist > 0){
+            const ang = Math.atan2(dy, dx);
+            const overlap = minDist - dist;
+            const mx = Math.cos(ang) * overlap * 0.5;
+            const my = Math.sin(ang) * overlap * 0.5;
+            if(!b1.isDragging){ b1.x -= mx; b1.y -= my; b1.vx -= mx * 0.08; b1.vy -= my * 0.08; }
+            if(!b2.isDragging){ b2.x += mx; b2.y += my; b2.vx += mx * 0.08; b2.vy += my * 0.08; }
+          }
+        }
       }
     }
-  }
-
-  // 2) AUCUNE collision calculée entre petites bulles (backgroundBubbles)
-  // -> elles flottent librement derrière, juste pour l'ambiance
-}
-
 
     let draggedBubble=null,lastMouseX=0,lastMouseY=0;
     function startDrag(mx,my){
@@ -643,7 +752,7 @@
     aboutCloseBtn.addEventListener('click',hideAboutModal);
     aboutOverlay.addEventListener('click',e=>{if(e.target===aboutOverlay)hideAboutModal();});
 
-    /* ---------- CA RUNNER (identique) ---------- */
+    /* ---------- CA RUNNER ---------- */
     const gameOverlay=document.getElementById('gameOverlay');
     const gameCloseBtn=document.getElementById('gameCloseBtn');
     const gameCanvas=document.getElementById('gameCanvas');
@@ -682,19 +791,18 @@
     }
     resizeRunnerCanvas();
 
-let bubblesPaused = false;
+    let bubblesPaused = false;
 
-function openGameOverlay(){
-  gameOverlay.style.display = 'flex';
-  startRunnerGame();
-  bubblesPaused = true; // pause des bulles
-}
-
-function closeGameOverlay(){
-  gameOverlay.style.display = 'none';
-  stopRunnerGame();
-  bubblesPaused = false; // reprise des bulles
-}
+    function openGameOverlay(){
+      gameOverlay.style.display = 'flex';
+      startRunnerGame();
+      bubblesPaused = true;
+    }
+    function closeGameOverlay(){
+      gameOverlay.style.display = 'none';
+      stopRunnerGame();
+      bubblesPaused = false;
+    }
     gameCloseBtn.addEventListener('click',closeGameOverlay);
     gameOverlay.addEventListener('click',e=>{if(e.target===gameOverlay)closeGameOverlay();});
 
@@ -847,8 +955,6 @@ function closeGameOverlay(){
       if(txt)copyToClipboard(txt);
     });
 
-    /* ---------- BG MUSIC + INTERACTIONS ---------- */
-    const bgMusic=document.getElementById('bgMusic');
     const bgVolume=document.getElementById('bgVolume');
     let bgStarted=false;
     const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
@@ -884,6 +990,12 @@ function closeGameOverlay(){
       const ca=mainBubbles.find(b=>b.cluster==='ca');
       if(ca&&ca.contains(mx,my)){openGameOverlay();return;}
 
+      const snow = mainBubbles.find(b=>b.cluster==='snow');
+      if(snow && snow.contains(mx,my)){
+        openSnowOverlay();
+        return;
+      }
+
       if(!e.touches&&e.type==='mousedown')startDrag(mx,my);
       else if(e.touches&&e.type==='touchstart')startDrag(mx,my);
     }
@@ -911,28 +1023,32 @@ function closeGameOverlay(){
       resizeRunnerCanvas();
     });
 
-    let lastTime = null;
-function animate(timestamp){
-  if(lastTime == null) lastTime = timestamp;
-  const dt = (timestamp - lastTime) / 1000;
-  lastTime = timestamp;
+    let lastTime=null;
+    function animate(timestamp){
+      if(lastTime==null) lastTime = timestamp;
+      const dt = (timestamp - lastTime) / 1000;
+      lastTime = timestamp;
 
-  ctx.fillStyle = '#050814';
-  ctx.fillRect(0,0,width,height);
+      ctx.fillStyle = '#050814';
+      ctx.fillRect(0,0,width,height);
 
-  if (!bubblesPaused) {
-    applySpringForces(dt);
-    checkCollisions();
-    drawConnections();
-    backgroundBubbles.forEach(b=>{ b.update(); b.draw(); });
-    mainBubbles.forEach(b=>{ b.update(); b.draw(); });
-    drawExplosions();
-  }
+      if (!bubblesPaused) {
+        applySpringForces(dt);
+        checkCollisions();
+        drawConnections();
+        backgroundBubbles.forEach(b=>{ b.update(); b.draw(); });
+        mainBubbles.forEach(b=>{ b.update(); b.draw(); });
+        drawExplosions();
+      } else {
+        drawConnections();
+        backgroundBubbles.forEach(b=>{ b.draw(); });
+        mainBubbles.forEach(b=>{ b.draw(); });
+        drawExplosions();
+      }
 
-  requestAnimationFrame(animate);
-}
-animate();
-
+      requestAnimationFrame(animate);
+    }
+    animate();
   </script>
 </body>
 </html>
