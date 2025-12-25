@@ -588,24 +588,30 @@
     }
 
     function checkCollisions(){
-      const all=[...mainBubbles,...backgroundBubbles];
-      for(let i=0;i<all.length;i++){
-        for(let j=i+1;j<all.length;j++){
-          const b1=all[i],b2=all[j];
-          const dx=b2.x-b1.x,dy=b2.y-b1.y;
-          const dist=Math.sqrt(dx*dx+dy*dy);
-          const minDist=b1.radius+b2.radius;
-          if(dist<minDist&&dist>0){
-            const ang=Math.atan2(dy,dx);
-            const overlap=minDist-dist;
-            const mx=Math.cos(ang)*overlap*0.5;
-            const my=Math.sin(ang)*overlap*0.5;
-            if(!b1.isDragging){b1.x-=mx;b1.y-=my;b1.vx-=mx*0.08;b1.vy-=my*0.08;}
-            if(!b2.isDragging){b2.x+=mx;b2.y+=my;b2.vx+=mx*0.08;b2.vy+=my*0.08;}
-          }
-        }
+  // 1) collisions uniquement entre GROSSES bulles
+  for(let i=0;i<mainBubbles.length;i++){
+    for(let j=i+1;j<mainBubbles.length;j++){
+      const b1 = mainBubbles[i];
+      const b2 = mainBubbles[j];
+      const dx = b2.x - b1.x;
+      const dy = b2.y - b1.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      const minDist = b1.radius + b2.radius;
+      if(dist < minDist && dist > 0){
+        const ang = Math.atan2(dy, dx);
+        const overlap = minDist - dist;
+        const mx = Math.cos(ang) * overlap * 0.5;
+        const my = Math.sin(ang) * overlap * 0.5;
+        if(!b1.isDragging){ b1.x -= mx; b1.y -= my; b1.vx -= mx * 0.08; b1.vy -= my * 0.08; }
+        if(!b2.isDragging){ b2.x += mx; b2.y += my; b2.vx += mx * 0.08; b2.vy += my * 0.08; }
       }
     }
+  }
+
+  // 2) AUCUNE collision calculée entre petites bulles (backgroundBubbles)
+  // -> elles flottent librement derrière, juste pour l'ambiance
+}
+
 
     let draggedBubble=null,lastMouseX=0,lastMouseY=0;
     function startDrag(mx,my){
