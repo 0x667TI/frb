@@ -1105,7 +1105,7 @@
     const runner = {
       x: 40,
       y: 0,
-      size: 28,
+      size: 40, // bigger player
       vy: 0,
       onGround: false
     };
@@ -1119,6 +1119,17 @@
     let obstacleTimer = 0;
     let obstacleInterval = 1100;
     let speed = 4.2;
+    let nextObstacleType = 0; // 0 = troll, 1 = pepe, 2 = wojak
+
+    // Images
+    const runnerImg = new Image();
+    runnerImg.src = 'pump-player.png';
+
+    const obstacleImgs = [
+      (() => { const i = new Image(); i.src = 'troll.png'; return i; })(),
+      (() => { const i = new Image(); i.src = 'pepe.png'; return i; })(),
+      (() => { const i = new Image(); i.src = 'wojak.png'; return i; })()
+    ];
 
     function resizeRunnerCanvas() {
       const rect = gameArea.getBoundingClientRect();
@@ -1162,6 +1173,7 @@
       obstacleTimer = 0;
       obstacleInterval = 1100;
       speed = 4.2;
+      nextObstacleType = 0;
 
       runner.x = 40;
       runner.y = ground.y - runner.size;
@@ -1183,22 +1195,26 @@
     function runnerJump() {
       if (!runnerPlaying || runnerGameOver) return;
       if (runner.onGround) {
-        runner.vy = -9.6;
+        runner.vy = -10.5;
         runner.onGround = false;
         runnerJumps++;
         gameJumpsEl.textContent = String(runnerJumps);
 
-        const progressStep = 0.12; // ~9 jumps to win
+        const progressStep = 0.12;
         runnerProgress = Math.min(runnerProgress + progressStep, runnerTargetProgress);
       }
     }
 
     function spawnObstacle() {
-      const size = 20 + Math.random() * 12;
+      const size = 36; // slightly smaller than player width/height
+      const type = nextObstacleType;
+      nextObstacleType = (nextObstacleType + 1) % obstacleImgs.length;
+
       obstacles.push({
         x: gameCanvas.width + size,
         y: ground.y - size,
-        size
+        size,
+        type
       });
     }
 
@@ -1271,13 +1287,44 @@
       gctx.fillStyle = 'rgba(30, 64, 175, 0.9)';
       gctx.fillRect(0, ground.y, gameCanvas.width, gameCanvas.height - ground.y);
 
-      gctx.fillStyle = '#4ADE80';
-      gctx.fillRect(runner.x, runner.y, runner.size, runner.size);
+      // Pump.fun pill player (bigger)
+      if (runnerImg.complete && runnerImg.naturalWidth > 0) {
+        gctx.drawImage(runnerImg, runner.x, runner.y, runner.size, runner.size);
+      } else {
+        gctx.fillStyle = '#4ADE80';
+        gctx.fillRect(runner.x, runner.y, runner.size, runner.size);
+      }
 
-      gctx.fillStyle = '#F97316';
-      obstacles.forEach(o => {
-        gctx.fillRect(o.x, o.y, o.size, o.size);
-      });
+      // Meme obstacles
+obstacles.forEach(o => {
+  const img = obstacleImgs[o.type];
+
+  if (img && img.complete && img.naturalWidth > 0) {
+    const baseSize = o.size;
+
+    let drawW = baseSize;
+    let drawH = baseSize;
+    let extraYOffset = 0; // décalage vertical
+
+    if (o.type === 2) {           // 2 = Wojak
+      drawW = baseSize * 1.6;
+      drawH = baseSize * 1.6;
+      extraYOffset = 0;           // pousse l’image un peu vers le bas
+    }
+
+    const drawX = o.x - (drawW - baseSize) / 2;
+    const drawY = o.y - (drawH - baseSize) + extraYOffset;
+
+    gctx.drawImage(img, drawX, drawY, drawW, drawH);
+  } else {
+    gctx.fillStyle = '#F97316';
+    gctx.fillRect(o.x, o.y, o.size, o.size);
+  }
+});
+
+
+
+
     }
 
     let lastRunnerTime = null;
