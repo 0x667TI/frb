@@ -682,8 +682,19 @@
     }
     resizeRunnerCanvas();
 
-    function openGameOverlay(){gameOverlay.style.display='flex';startRunnerGame();}
-    function closeGameOverlay(){gameOverlay.style.display='none';stopRunnerGame();}
+let bubblesPaused = false;
+
+function openGameOverlay(){
+  gameOverlay.style.display = 'flex';
+  startRunnerGame();
+  bubblesPaused = true; // pause des bulles
+}
+
+function closeGameOverlay(){
+  gameOverlay.style.display = 'none';
+  stopRunnerGame();
+  bubblesPaused = false; // reprise des bulles
+}
     gameCloseBtn.addEventListener('click',closeGameOverlay);
     gameOverlay.addEventListener('click',e=>{if(e.target===gameOverlay)closeGameOverlay();});
 
@@ -900,26 +911,28 @@
       resizeRunnerCanvas();
     });
 
-    let lastTime=null;
-    function animate(timestamp){
-      if(lastTime==null)lastTime=timestamp;
-      const dt=(timestamp-lastTime)/1000;
-      lastTime=timestamp;
+    let lastTime = null;
+function animate(timestamp){
+  if(lastTime == null) lastTime = timestamp;
+  const dt = (timestamp - lastTime) / 1000;
+  lastTime = timestamp;
 
-      ctx.fillStyle='#050814';
-      ctx.fillRect(0,0,width,height);
+  ctx.fillStyle = '#050814';
+  ctx.fillRect(0,0,width,height);
 
-      applySpringForces(dt);
-      checkCollisions();
-      drawConnections();
+  if (!bubblesPaused) {
+    applySpringForces(dt);
+    checkCollisions();
+    drawConnections();
+    backgroundBubbles.forEach(b=>{ b.update(); b.draw(); });
+    mainBubbles.forEach(b=>{ b.update(); b.draw(); });
+    drawExplosions();
+  }
 
-      backgroundBubbles.forEach(b=>{b.update();b.draw();});
-      mainBubbles.forEach(b=>{b.update();b.draw();});
+  requestAnimationFrame(animate);
+}
+animate();
 
-      drawExplosions();
-      requestAnimationFrame(animate);
-    }
-    animate();
   </script>
 </body>
 </html>
