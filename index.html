@@ -64,7 +64,8 @@
 
     .about-overlay,
     .snow-overlay,
-    .game-overlay{
+    .game-overlay,
+    .challenge-overlay{
       position:fixed;inset:0;
       background:rgba(15,23,42,0.80);
       backdrop-filter:blur(9px);
@@ -81,7 +82,8 @@
 
     .about-modal,
     .snow-modal,
-    .game-modal{
+    .game-modal,
+    .challenge-modal{
       background:radial-gradient(circle at top,#111827,#020617);
       border-radius:18px;
       border:1px solid rgba(148,163,184,0.55);
@@ -95,7 +97,8 @@
       display:flex;flex-direction:column;gap:12px;
     }
 
-    .game-modal{
+    .game-modal,
+    .challenge-modal{
       width:min(480px,92vw);
       padding:18px 18px 20px;
       display:flex;flex-direction:column;gap:10px;
@@ -109,17 +112,20 @@
 
     .about-header,
     .game-header,
-    .snow-header{
+    .snow-header,
+    .challenge-header{
       display:flex;justify-content:space-between;align-items:center;gap:12px;
     }
     .about-title,
     .game-title,
-    .snow-title{
+    .snow-title,
+    .challenge-title{
       font-size:20px;font-weight:700;
     }
     .about-close,
     .game-close,
-    .snow-close{
+    .snow-close,
+    .challenge-close{
       border:none;background:transparent;color:#9ca3af;
       font-size:18px;cursor:pointer;padding:4px 8px;
     }
@@ -128,10 +134,12 @@
     .about-content p{margin-bottom:10px;}
 
     .game-body,
-    .snow-body{margin-top:4px;display:flex;flex-direction:column;gap:10px;}
+    .snow-body,
+    .challenge-body{margin-top:4px;display:flex;flex-direction:column;gap:10px;}
 
     .game-instructions,
-    .snow-text{font-size:13px;color:#e5e7eb;}
+    .snow-text,
+    .challenge-text{font-size:13px;color:#e5e7eb;}
 
     .game-hud{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#cbd5f5;gap:8px;}
     .game-progress{flex:1;height:6px;border-radius:999px;background:rgba(30,64,175,0.4);overflow:hidden;}
@@ -291,9 +299,49 @@
     </div>
   </div>
 
+  <!-- 50K Challenge -->
+  <div class="challenge-overlay" id="challenge50kOverlay">
+    <div class="challenge-modal">
+      <div class="challenge-header">
+        <div class="challenge-title">$50K Challenge</div>
+        <button class="challenge-close" id="challenge50kCloseBtn">✕</button>
+      </div>
+      <div class="challenge-body">
+        <div class="challenge-text">
+          Surprise guest joining the livestream + paying dex.
+        </div>
+        <div style="margin-top:6px;display:flex;justify-content:center;">
+          <img src="guest-50k.gif" alt="Surprise guest" 
+               style="max-width:100%;border-radius:12px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 100K Challenge -->
+  <div class="challenge-overlay" id="challenge100kOverlay">
+    <div class="challenge-modal">
+      <div class="challenge-header">
+        <div class="challenge-title">$100K Challenge</div>
+        <button class="challenge-close" id="challenge100kCloseBtn">✕</button>
+      </div>
+      <div class="challenge-body">
+        <div class="challenge-text">
+          CHALLENGE 1 : eating from a stranger's plate at a restaurant.
+        </div>
+        <div style="margin-top:6px;display:flex;justify-content:center;">
+          <img src="challenge1-100k.gif" alt="Challenge 1" 
+               style="max-width:100%;border-radius:12px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <audio id="explosionSound" src="explosion.mp3" preload="auto"></audio>
   <audio id="bgMusic" src="background.mp3" loop preload="auto"></audio>
   <audio id="snowSound" src="snow.mp3" loop preload="auto"></audio>
+  <audio id="challenge50kSound" src="challenge-50k.mp3" loop preload="auto"></audio>
+  <audio id="challenge100kSound" src="challenge-100k.mp3" loop preload="auto"></audio>
 
   <div id="canvas-container"></div>
 
@@ -308,13 +356,28 @@
 
     const bgMusic = document.getElementById('bgMusic');
     const snowSound = document.getElementById('snowSound');
+    const challenge50kSound = document.getElementById('challenge50kSound');
+    const challenge100kSound = document.getElementById('challenge100kSound');
 
     const snowOverlay = document.getElementById('snowOverlay');
     const snowCloseBtn = document.getElementById('snowCloseBtn');
 
+    const challenge50kOverlay = document.getElementById('challenge50kOverlay');
+    const challenge50kCloseBtn = document.getElementById('challenge50kCloseBtn');
+
+    const challenge100kOverlay = document.getElementById('challenge100kOverlay');
+    const challenge100kCloseBtn = document.getElementById('challenge100kCloseBtn');
+
+    function pauseAllChallengeSounds(){
+      if(challenge50kSound) challenge50kSound.pause();
+      if(challenge100kSound) challenge100kSound.pause();
+      if(snowSound) snowSound.pause();
+    }
+
     function openSnowOverlay(){
       snowOverlay.style.display='flex';
       if(bgMusic && !bgMusic.paused){ bgMusic.pause(); }
+      pauseAllChallengeSounds();
       if(snowSound){
         snowSound.currentTime = 0;
         snowSound.play().catch(()=>{});
@@ -327,6 +390,40 @@
     }
     snowCloseBtn.addEventListener('click', closeSnowOverlay);
     snowOverlay.addEventListener('click', e=>{ if(e.target===snowOverlay) closeSnowOverlay(); });
+
+    function openChallenge50k(){
+      challenge50kOverlay.style.display='flex';
+      if(bgMusic && !bgMusic.paused){ bgMusic.pause(); }
+      pauseAllChallengeSounds();
+      if(challenge50kSound){
+        challenge50kSound.currentTime = 0;
+        challenge50kSound.play().catch(()=>{});
+      }
+    }
+    function closeChallenge50k(){
+      challenge50kOverlay.style.display='none';
+      if(challenge50kSound){ challenge50kSound.pause(); }
+      if(bgMusic){ bgMusic.play().catch(()=>{}); }
+    }
+    challenge50kCloseBtn.addEventListener('click', closeChallenge50k);
+    challenge50kOverlay.addEventListener('click', e=>{ if(e.target===challenge50kOverlay) closeChallenge50k(); });
+
+    function openChallenge100k(){
+      challenge100kOverlay.style.display='flex';
+      if(bgMusic && !bgMusic.paused){ bgMusic.pause(); }
+      pauseAllChallengeSounds();
+      if(challenge100kSound){
+        challenge100kSound.currentTime = 0;
+        challenge100kSound.play().catch(()=>{});
+      }
+    }
+    function closeChallenge100k(){
+      challenge100kOverlay.style.display='none';
+      if(challenge100kSound){ challenge100kSound.pause(); }
+      if(bgMusic){ bgMusic.play().catch(()=>{}); }
+    }
+    challenge100kCloseBtn.addEventListener('click', closeChallenge100k);
+    challenge100kOverlay.addEventListener('click', e=>{ if(e.target===challenge100kOverlay) closeChallenge100k(); });
 
     const palette = {
       purple:['#C084FC','#A855F7','#581C87'],
@@ -471,7 +568,6 @@
         }
 
         if(this.cluster==='snow'){
-          // pas de contour, juste l'image recoupée dans un cercle
           const innerR = this.radius;
           ctx.save();
           ctx.beginPath();
@@ -993,6 +1089,18 @@
       const snow = mainBubbles.find(b=>b.cluster==='snow');
       if(snow && snow.contains(mx,my)){
         openSnowOverlay();
+        return;
+      }
+
+      const bubble50k = mainBubbles.find(b=>b.label === '$50K');
+      if(bubble50k && bubble50k.contains(mx,my)){
+        openChallenge50k();
+        return;
+      }
+
+      const bubble100k = mainBubbles.find(b=>b.label === '$100K');
+      if(bubble100k && bubble100k.contains(mx,my)){
+        openChallenge100k();
         return;
       }
 
