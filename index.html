@@ -63,6 +63,10 @@
     canvas:active{cursor:grabbing;}
 
     .about-overlay,
+    .snow-overlay,
+    .game-overlay,
+    .challenge-overlay,
+    .coming-overlay,
     .casino-overlay{
       position:fixed;inset:0;
       background:rgba(15,23,42,0.80);
@@ -71,6 +75,7 @@
       align-items:center;justify-content:center;
       z-index:1600;
     }
+
     .about-overlay{
       background:rgba(15,23,42,0.75);
       backdrop-filter:blur(8px);
@@ -78,6 +83,10 @@
     }
 
     .about-modal,
+    .snow-modal,
+    .game-modal,
+    .challenge-modal,
+    .coming-modal,
     .casino-modal{
       background:radial-gradient(circle at top,#111827,#020617);
       border-radius:18px;
@@ -85,26 +94,49 @@
       box-shadow:0 18px 45px rgba(0,0,0,0.8);
       color:#e5e7eb;
     }
+
     .about-modal{
       max-width:720px;max-height:70vh;
       padding:24px 26px;
       display:flex;flex-direction:column;gap:12px;
     }
+
+    .game-modal,
+    .challenge-modal,
+    .coming-modal,
     .casino-modal{
       width:min(520px,92vw);
       padding:18px 18px 20px;
       display:flex;flex-direction:column;gap:10px;
     }
 
+    .snow-modal{
+      width:min(420px,90vw);
+      padding:18px 18px 20px;
+      display:flex;flex-direction:column;gap:10px;
+    }
+
     .about-header,
+    .game-header,
+    .snow-header,
+    .challenge-header,
+    .coming-header,
     .casino-header{
       display:flex;justify-content:space-between;align-items:center;gap:12px;
     }
     .about-title,
+    .game-title,
+    .snow-title,
+    .challenge-title,
+    .coming-title,
     .casino-title{
       font-size:20px;font-weight:700;
     }
     .about-close,
+    .game-close,
+    .snow-close,
+    .challenge-close,
+    .coming-close,
     .casino-close{
       border:none;background:transparent;color:#9ca3af;
       font-size:18px;cursor:pointer;padding:4px 8px;
@@ -113,8 +145,33 @@
     .about-content{font-size:14px;line-height:1.5;margin-top:4px;overflow-y:auto;padding-right:6px;}
     .about-content p{margin-bottom:10px;}
 
+    .game-body,
+    .snow-body,
+    .challenge-body,
+    .coming-body,
     .casino-body{margin-top:4px;display:flex;flex-direction:column;gap:10px;}
+
+    .game-instructions,
+    .snow-text,
+    .challenge-text,
+    .coming-text,
     .casino-text{font-size:13px;color:#e5e7eb;}
+
+    .game-hud{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#cbd5f5;gap:8px;}
+    .game-progress{flex:1;height:6px;border-radius:999px;background:rgba(30,64,175,0.4);overflow:hidden;}
+    .game-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#22c55e,#4ade80);transition:width .1s linear;}
+    .game-area{margin-top:4px;position:relative;width:100%;height:230px;border-radius:12px;
+      background:radial-gradient(circle at top,#020617,#020617 40%,#020617 60%);
+      overflow:hidden;border:1px solid rgba(30,64,175,0.6);}
+    .game-result{margin-top:8px;font-size:13px;color:#e5e7eb;}
+    .game-result-code{margin-top:6px;font-family:monospace;word-break:break-all;}
+
+    .snow-link{
+      font-size:13px;
+      color:#93c5fd;
+      text-decoration:none;
+    }
+    .snow-link:hover{text-decoration:underline;}
 
     /* --- Slot design --- */
     .slot-shell{
@@ -240,6 +297,7 @@
       .social-icon,.social-img{width:22px;height:22px;}
       .about-modal{max-width:90vw;max-height:75vh;padding:18px 18px;}
       .volume-slider{width:80px;}
+      .game-modal,.challenge-modal,.coming-modal,.casino-modal{width:90vw;}
       .slot-reel{width:64px;height:88px;}
       .slot-symbol span{font-size:34px;}
     }
@@ -275,6 +333,7 @@
         </svg>
         <input id="bgVolume" class="volume-slider" type="range" min="0" max="1" step="0.01" value="0.6" />
       </div>
+
       <div class="socials">
         <a class="social-link" href="https://x.com/i/communities/1970108948532318479" target="_blank" rel="noopener noreferrer">
           <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -293,7 +352,7 @@
     </div>
   </nav>
 
-  <!-- ABOUT -->
+  <!-- ABOUT modal -->
   <div class="about-overlay" id="aboutOverlay">
     <div class="about-modal">
       <div class="about-header">
@@ -302,12 +361,137 @@
       </div>
       <div class="about-content">
         <p>This token is not just a crypto project — it’s a 24/7 live experience.</p>
-        <p>Every new market cap milestone unlocks new challenges, giveaways and live content.</p>
+        <p>We are launching a non-stop livestream, running 24 hours a day, where the community directly shapes what happens next. At every new market cap milestone, a brand-new challenge is unlocked. And the higher the market cap grows, the crazier, bolder, and more unforgettable the challenges become.</p>
+        <p>Expect never-seen-before challenges, massive giveaways, and surprise guest appearances. Everything happens live, in France, with one goal: to create an iconic, legendary, and memorable live event powered by the community.</p>
+        <p>A portion of the project’s reward fees will be:<br>
+        • Redistributed through giveaways<br>
+        • Used for buybacks &amp; burns<br>
+        • Invested into boosts to fuel growth and momentum</p>
+        <p>This is more than a token.<br>
+        This is a live show.<br>
+        This is community-driven chaos.<br>
+        This is an experience you don’t want to miss.</p>
       </div>
     </div>
   </div>
 
-  <!-- MINI CASINO -->
+  <!-- CA Runner -->
+  <div class="game-overlay" id="gameOverlay">
+    <div class="game-modal">
+      <div class="game-header">
+        <div class="game-title">CA Runner</div>
+        <button class="game-close" id="gameCloseBtn">✕</button>
+      </div>
+      <div class="game-body">
+        <div class="game-instructions">
+          Jump over the obstacles. Each jump fills the bar. When it is full without crashing, the Contract Address is revealed.
+        </div>
+
+        <div class="game-hud">
+          <span>Jumps: <span id="gameJumps">0</span></span>
+          <div class="game-progress"><div class="game-progress-fill" id="gameProgressFill"></div></div>
+          <span id="gameStatus">RUN</span>
+        </div>
+
+        <div class="game-area" id="gameArea">
+          <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <div class="game-result" id="gameResult" style="display:none;">
+          <div id="gameResultText"></div>
+          <div class="game-result-code" id="contractAddress" style="cursor:pointer;"></div>
+
+          <img id="ggGif" src="gg-pump.gif" alt="GG LET'S PUMP IT BUDDY"
+               style="display:none;margin-top:10px;max-width:100%;border-radius:8px;" />
+
+          <button id="gameRestartBtn"
+            style="margin-top:10px;padding:6px 12px;border-radius:999px;
+                   border:1px solid rgba(148,163,184,0.7);
+                   background:rgba(15,23,42,0.9);color:#e5e7eb;
+                   font-size:12px;cursor:pointer;">
+            Restart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SNOWBALL modal -->
+  <div class="snow-overlay" id="snowOverlay">
+    <div class="snow-modal">
+      <div class="snow-header">
+        <div class="snow-title">Powered by Snowball</div>
+        <button class="snow-close" id="snowCloseBtn">✕</button>
+      </div>
+      <div class="snow-body">
+        <div class="snow-text">
+          Our Token is powered by Snowball. Every trade using Snowball Bot helps buy and burn $snowball forever.
+        </div>
+        <a class="snow-link" href="https://www.sb.fun/" target="_blank" rel="noopener noreferrer">
+          https://www.sb.fun/
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 50K Challenge -->
+  <div class="challenge-overlay" id="challenge50kOverlay">
+    <div class="challenge-modal">
+      <div class="challenge-header">
+        <div class="challenge-title">$50K Challenge</div>
+        <button class="challenge-close" id="challenge50kCloseBtn">✕</button>
+      </div>
+      <div class="challenge-body">
+        <div class="challenge-text">
+          Surprise guest joining the livestream + paying dex.
+        </div>
+        <div style="margin-top:6px;display:flex;justify-content:center;">
+          <img src="guest-50k.gif" alt="Surprise guest"
+               style="max-width:100%;border-radius:12px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 100K Challenge -->
+  <div class="challenge-overlay" id="challenge100kOverlay">
+    <div class="challenge-modal">
+      <div class="challenge-header">
+        <div class="challenge-title">$100K Challenge</div>
+        <button class="challenge-close" id="challenge100kCloseBtn">✕</button>
+      </div>
+      <div class="challenge-body">
+        <div class="challenge-text">
+          CHALLENGE 1 : eating from a stranger's plate at a restaurant.
+        </div>
+        <div style="margin-top:6px;display:flex;justify-content:center;">
+          <img src="challenge1-100k.gif" alt="Challenge 1"
+               style="max-width:100%;border-radius:12px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMING SOON modal -->
+  <div class="coming-overlay" id="comingOverlay">
+    <div class="coming-modal">
+      <div class="coming-header">
+        <div class="coming-title">COMING SOON</div>
+        <button class="coming-close" id="comingCloseBtn">✕</button>
+      </div>
+      <div class="coming-body">
+        <div class="coming-text">
+          COMING SOON!
+        </div>
+        <div style="margin-top:6px;display:flex;justify-content:center;">
+          <img src="coming-soon.png" alt="Coming soon"
+               style="max-width:100%;border-radius:12px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MINI CASINO modal -->
   <div class="casino-overlay" id="casinoOverlay">
     <div class="casino-modal">
       <div class="casino-header">
@@ -334,10 +518,10 @@
             </div>
           </div>
           <div class="slot-bottom-label">
-  3x 7 = 1 SOL (screen & send in community)<br>
-  3x BAR = 0.3 SOL (screen & send in community)<br>
-  3x 🔔 = 0.1 SOL (screen & send in community)
-</div>
+            3x 7 = 1 SOL (screen & send in community)<br>
+            3x BAR = 0.3 SOL (screen & send in community)<br>
+            3x 🔔 = 0.1 SOL (screen & send in community)
+          </div>
 
           <button class="slot-btn" id="slotSpinBtn">Spin</button>
           <div class="slot-status" id="slotStatus"></div>
@@ -348,52 +532,89 @@
   </div>
 
   <!-- SONS -->
+  <audio id="explosionSound" src="explosion.mp3" preload="auto"></audio>
   <audio id="bgMusic" src="background.mp3" loop preload="auto"></audio>
+  <audio id="snowSound" src="snow.mp3" loop preload="auto"></audio>
+  <audio id="challenge50kSound" src="challenge-50k.mp3" loop preload="auto"></audio>
+  <audio id="challenge100kSound" src="challenge-100k.mp3" loop preload="auto"></audio>
+  <audio id="comingSound" src="coming-soon.mp3" loop preload="auto"></audio>
   <audio id="casinoSound" src="casino.mp3" loop preload="auto"></audio>
 
   <div id="canvas-container"></div>
 
   <script>
-    const canvas=document.createElement('canvas');
-    const ctx=canvas.getContext('2d');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
     document.getElementById('canvas-container').appendChild(canvas);
-    let width=canvas.width=window.innerWidth;
-    let height=canvas.height=window.innerHeight;
-    const navHeight=80;
 
-    const bgMusic=document.getElementById('bgMusic');
-    const casinoSound=document.getElementById('casinoSound');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    const navHeight = 80;
+
+    const bgMusic = document.getElementById('bgMusic');
+    const snowSound = document.getElementById('snowSound');
+    const challenge50kSound = document.getElementById('challenge50kSound');
+    const challenge100kSound = document.getElementById('challenge100kSound');
+    const comingSound = document.getElementById('comingSound');
+    const casinoSound = document.getElementById('casinoSound');
+
+    const snowOverlay = document.getElementById('snowOverlay');
+    const snowCloseBtn = document.getElementById('snowCloseBtn');
+    const challenge50kOverlay = document.getElementById('challenge50kOverlay');
+    const challenge50kCloseBtn = document.getElementById('challenge50kCloseBtn');
+    const challenge100kOverlay = document.getElementById('challenge100kOverlay');
+    const challenge100kCloseBtn = document.getElementById('challenge100kCloseBtn');
+    const comingOverlay = document.getElementById('comingOverlay');
+    const comingCloseBtn = document.getElementById('comingCloseBtn');
+    const casinoOverlay = document.getElementById('casinoOverlay');
+    const casinoCloseBtn = document.getElementById('casinoCloseBtn');
 
     function pauseAllSpecialSounds(){
-      if(casinoSound) casinoSound.pause();
+      [snowSound,challenge50kSound,challenge100kSound,comingSound,casinoSound]
+        .forEach(s=>s && s.pause());
     }
-    function openOverlayWithSound(overlay,sound){
+
+    function openOverlayWithSound(overlay, sound){
       overlay.style.display='flex';
-      if(bgMusic && !bgMusic.paused) bgMusic.pause();
+      if(bgMusic && !bgMusic.paused){ bgMusic.pause(); }
       pauseAllSpecialSounds();
-      if(sound){sound.currentTime=0;sound.play().catch(()=>{});}
+      if(sound){
+        sound.currentTime = 0;
+        sound.play().catch(()=>{});
+      }
     }
-    function closeOverlayWithSound(overlay,sound){
+    function closeOverlayWithSound(overlay, sound){
       overlay.style.display='none';
       if(sound) sound.pause();
-      if(bgMusic) bgMusic.play().catch(()=>{});
+      if(bgMusic){ bgMusic.play().catch(()=>{}); }
     }
 
-    const aboutOverlay=document.getElementById('aboutOverlay');
-    const aboutCloseBtn=document.getElementById('aboutCloseBtn');
-    function showAboutModal(){aboutOverlay.style.display='flex';}
-    function hideAboutModal(){aboutOverlay.style.display='none';}
-    aboutCloseBtn.addEventListener('click',hideAboutModal);
-    aboutOverlay.addEventListener('click',e=>{if(e.target===aboutOverlay)hideAboutModal();});
+    function openSnowOverlay(){ openOverlayWithSound(snowOverlay, snowSound); }
+    function closeSnowOverlay(){ closeOverlayWithSound(snowOverlay, snowSound); }
+    snowCloseBtn.addEventListener('click', closeSnowOverlay);
+    snowOverlay.addEventListener('click', e=>{ if(e.target===snowOverlay) closeSnowOverlay(); });
 
-    const casinoOverlay=document.getElementById('casinoOverlay');
-    const casinoCloseBtn=document.getElementById('casinoCloseBtn');
-    function openCasino(){openOverlayWithSound(casinoOverlay,casinoSound);}
-    function closeCasino(){closeOverlayWithSound(casinoOverlay,casinoSound);}
-    casinoCloseBtn.addEventListener('click',closeCasino);
-    casinoOverlay.addEventListener('click',e=>{if(e.target===casinoOverlay)closeCasino();});
+    function openChallenge50k(){ openOverlayWithSound(challenge50kOverlay, challenge50kSound); }
+    function closeChallenge50k(){ closeOverlayWithSound(challenge50kOverlay, challenge50kSound); }
+    challenge50kCloseBtn.addEventListener('click', closeChallenge50k);
+    challenge50kOverlay.addEventListener('click', e=>{ if(e.target===challenge50kOverlay) closeChallenge50k(); });
 
-    const palette={
+    function openChallenge100k(){ openOverlayWithSound(challenge100kOverlay, challenge100kSound); }
+    function closeChallenge100k(){ closeOverlayWithSound(challenge100kOverlay, challenge100kSound); }
+    challenge100kCloseBtn.addEventListener('click', closeChallenge100k);
+    challenge100kOverlay.addEventListener('click', e=>{ if(e.target===challenge100kOverlay) closeChallenge100k(); });
+
+    function openComing(){ openOverlayWithSound(comingOverlay, comingSound); }
+    function closeComing(){ closeOverlayWithSound(comingOverlay, comingSound); }
+    comingCloseBtn.addEventListener('click', closeComing);
+    comingOverlay.addEventListener('click', e=>{ if(e.target===comingOverlay) closeComing(); });
+
+    function openCasino(){ openOverlayWithSound(casinoOverlay, casinoSound); }
+    function closeCasino(){ closeOverlayWithSound(casinoOverlay, casinoSound); }
+    casinoCloseBtn.addEventListener('click', closeCasino);
+    casinoOverlay.addEventListener('click', e=>{ if(e.target===casinoOverlay) closeCasino(); });
+
+    const palette = {
       purple:['#C084FC','#A855F7','#581C87'],
       pink:['#FB37A3','#EC4899','#831843'],
       green:['#4ADE80','#22C55E','#14532D'],
@@ -402,7 +623,7 @@
       teal:['#2DD4BF','#14B8A6','#115E59']
     };
 
-    const bubbleData=[
+    const bubbleData = [
       { label:'$50K',  radius:24, x:180,  y:250, color:palette.purple, cluster:'pair1'},
       { label:'$100K', radius:29, x:280,  y:280, color:palette.purple, cluster:'pair1'},
       { label:'$500K', radius:32, x:450,  y:200, color:palette.pink,   cluster:'pair2'},
@@ -415,78 +636,201 @@
       { label:'$20M',  radius:60, x:280,  y:550, color:palette.blue,   cluster:'pair5'},
       { label:'$40M',  radius:64, x:450,  y:630, color:palette.blue,   cluster:'pair5'},
       { label:'$60M',  radius:68, x:900,  y:600, color:palette.teal,   cluster:'pair6'},
-      { label:'$100M', radius:72, x:1100,y:650, color:palette.teal,   cluster:'pair6'},
+      { label:'$100M', radius:72, x:1100, y:650, color:palette.teal,   cluster:'pair6'},
       { label:'', radius:55, x:650, y:230, color:['#e5f2ff','#93c5fd','#1e293b'], cluster:'snow'},
-      { label:'CA', radius:48, x:720, y:320, color:['#4ADE80','#22C55E','#FFFFFF'], cluster:'ca'},
-      { label:'ABOUT', radius:50, x:350, y:360, color:['#0f172a','#020617','#000000'], cluster:'bomb'},
-      { label:'', radius:45, x:980, y:520, color:palette.cyan, cluster:'coming'},
-      { label:'', radius:50, x:1150, y:300, color:palette.pink, cluster:'casino'}
+      { label:'CA',    radius:48, x:720,  y:320, color:['#4ADE80','#22C55E','#FFFFFF'], cluster:'ca'},
+      { label:'ABOUT', radius:50, x:350,  y:360, color:['#0f172a','#020617','#000000'], cluster:'bomb'},
+      { label:'', radius:45, x:980, y:520, color:palette.cyan, cluster:'coming'}, // Dexscreener
+      { label:'', radius:50, x:1150,y:300, color:palette.pink, cluster:'casino'}  // Casino
     ];
 
-    const connections=[
-      [0,1],[2,3],[4,5],[5,6],[7,8],[9,10],[11,12]
-    ].map(([a,b])=>({a,b,restLength:null,stiffness:0.014,damping:0.18}));
+    const connections = [
+      [0, 1],
+      [2, 3],
+      [4, 5], [5, 6],
+      [7, 8],
+      [9, 10],
+      [11, 12]
+    ].map(([a, b]) => ({
+      a,
+      b,
+      restLength: null,
+      stiffness: 0.014,
+      damping: 0.18
+    }));
 
     function withAlpha(hex,a){
       const v=Math.round(a*255).toString(16).padStart(2,'0');
       return hex+v;
     }
 
-    const snowballImg=new Image();snowballImg.src='boule-de-neige.png'; // nouveau flocon
-    const comingBubbleImg=new Image();comingBubbleImg.src='dexscreener-bubble.png';
-    const casinoBubbleImg=new Image();casinoBubbleImg.src='casino-bubble.png';
+    const snowballImg = new Image();
+    snowballImg.src = 'boule-de-neige.png';
+
+    const comingBubbleImg = new Image();
+    comingBubbleImg.src = 'dexscreener-bubble.png';
+
+    const casinoBubbleImg = new Image();
+    casinoBubbleImg.src = 'casino-bubble.png';
 
     class Bubble{
       constructor(data,isBackground=false){
         this.label=data.label||'';
         this.radius=data.radius;
         this.x=data.x;this.y=data.y;
-        this.color=data.color||['#9ca3af','#6b7280','#020617'];
+        this.color=data.color || ['#9ca3af','#6b7280','#020617'];
         this.cluster=data.cluster||null;
         this.isBackground=isBackground;
-        this.vx=isBackground?0:(Math.random()-0.5)*0.15;
-        this.vy=isBackground?0:(Math.random()-0.5)*0.15;
+        this.vx = isBackground ? 0 : (Math.random()-0.5)*0.15;
+        this.vy = isBackground ? 0 : (Math.random()-0.5)*0.15;
         this.isDragging=false;
         this.floatOffset=Math.random()*Math.PI*2;
-        this.floatSpeed=isBackground?0:(0.003+Math.random()*0.002);
+        this.floatSpeed=isBackground ? 0 : (0.003+Math.random()*0.002);
+        this.fuseProgress=0;
+        this.fuseBurning=false;
+        this.exploded=false;
       }
       draw(){
         ctx.save();
-        if(this.cluster==='snow' || this.cluster==='coming' || this.cluster==='casino'){
-          const r=this.radius;
-          ctx.beginPath();ctx.arc(this.x,this.y,r,0,Math.PI*2);ctx.clip();
-          let img=null;
-          if(this.cluster==='snow') img=snowballImg;
-          if(this.cluster==='coming') img=comingBubbleImg;
-          if(this.cluster==='casino') img=casinoBubbleImg;
-          if(img && img.complete && img.naturalWidth>0){
-            const size=r*2;
-            ctx.drawImage(img,this.x-size/2,this.y-size/2,size,size);
-          }else{
-            ctx.fillStyle='#111827';ctx.fill();
-          }
-          ctx.restore();return;
-        }
+
         if(this.cluster==='bomb'){
-          const g=ctx.createRadialGradient(
+          const bombGradient=ctx.createRadialGradient(
             this.x-this.radius*0.35,this.y-this.radius*0.35,this.radius*0.1,
             this.x,this.y,this.radius
           );
-          g.addColorStop(0,'rgba(75,85,99,0.9)');
-          g.addColorStop(0.4,'rgba(31,41,55,0.96)');
-          g.addColorStop(1,'rgba(15,23,42,1)');
+          bombGradient.addColorStop(0,'rgba(75,85,99,0.9)');
+          bombGradient.addColorStop(0.4,'rgba(31,41,55,0.96)');
+          bombGradient.addColorStop(1,'rgba(15,23,42,1)');
           ctx.beginPath();ctx.arc(this.x,this.y,this.radius,0,Math.PI*2);
-          ctx.fillStyle=g;ctx.fill();
+          ctx.fillStyle=bombGradient;ctx.fill();
           ctx.strokeStyle='rgba(15,23,42,1)';
           ctx.lineWidth=1.5;ctx.stroke();
+
+          const capR=this.radius*0.32;
+          const capY=this.y-this.radius*0.7;
+          ctx.beginPath();
+          ctx.arc(this.x,capY,capR,Math.PI,2*Math.PI);
+          ctx.lineTo(this.x+capR,capY+capR*0.4);
+          ctx.lineTo(this.x-capR,capY+capR*0.4);
+          ctx.closePath();
+          ctx.fillStyle='#020617';ctx.fill();
+          ctx.strokeStyle='rgba(148,163,184,0.7)';
+          ctx.lineWidth=1;ctx.stroke();
+
+          const fuseBaseX=this.x;
+          const fuseBaseY=capY-capR*0.1;
+          const fuseLength=this.radius*1.4;
+          const mid1X=fuseBaseX+fuseLength*0.25;
+          const mid1Y=fuseBaseY-fuseLength*0.15;
+          const mid2X=fuseBaseX+fuseLength*0.55;
+          const mid2Y=fuseBaseY-fuseLength*0.05;
+          const endX=fuseBaseX+fuseLength*0.8;
+          const endY=fuseBaseY-fuseLength*0.55;
+
+          ctx.lineWidth=4;ctx.strokeStyle='#7c2d12';
+          ctx.beginPath();ctx.moveTo(fuseBaseX,fuseBaseY);
+          ctx.bezierCurveTo(mid1X,mid1Y,mid2X,mid2Y,endX,endY);ctx.stroke();
+
+          ctx.lineWidth=2.5;ctx.strokeStyle='#f97316';
+          ctx.beginPath();ctx.moveTo(fuseBaseX,fuseBaseY);
+          ctx.bezierCurveTo(mid1X,mid1Y,mid2X,mid2Y,endX,endY);ctx.stroke();
+
+          const t=this.fuseProgress;
+          const flameX=Math.pow(1-t,3)*fuseBaseX+3*Math.pow(1-t,2)*t*mid1X+
+                        3*(1-t)*t*t*mid2X+Math.pow(t,3)*endX;
+          const flameY=Math.pow(1-t,3)*fuseBaseY+3*Math.pow(1-t,2)*t*mid1Y+
+                        3*(1-t)*t*t*mid2Y+Math.pow(t,3)*endY;
+          if(this.fuseBurning&&!this.exploded){
+            const flameR=6+Math.sin(Date.now()*0.025)*2;
+            const fg=ctx.createRadialGradient(flameX,flameY,0,flameX,flameY,flameR);
+            fg.addColorStop(0,'rgba(254,249,195,1)');
+            fg.addColorStop(0.5,'rgba(248,113,113,0.95)');
+            fg.addColorStop(1,'rgba(248,113,113,0)');
+            ctx.beginPath();ctx.arc(flameX,flameY,flameR,0,Math.PI*2);
+            ctx.fillStyle=fg;ctx.fill();
+          }
+
           ctx.fillStyle='rgba(255,255,255,0.95)';
           ctx.font=`bold ${Math.max(11,this.radius/3.4)}px -apple-system,sans-serif`;
           ctx.textAlign='center';ctx.textBaseline='middle';
           ctx.fillText('ABOUT',this.x,this.y+this.radius*0.05);
           ctx.restore();return;
         }
+
+        if(this.cluster==='snow'){
+          const innerR = this.radius;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, innerR, 0, Math.PI*2);
+          ctx.clip();
+          if(snowballImg.complete && snowballImg.naturalWidth>0){
+            const size = innerR*2;
+            ctx.drawImage(
+              snowballImg,
+              this.x - size/2,
+              this.y - size/2,
+              size,
+              size
+            );
+          }else{
+            ctx.fillStyle='rgba(248,250,252,0.95)';
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,innerR,0,Math.PI*2);
+            ctx.fill();
+          }
+          ctx.restore();
+          return;
+        }
+
+        if(this.cluster==='coming'){
+          const r = this.radius;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, r, 0, Math.PI*2);
+          ctx.clip();
+          if(comingBubbleImg.complete && comingBubbleImg.naturalWidth>0){
+            const size = r*2;
+            ctx.drawImage(
+              comingBubbleImg,
+              this.x - size/2,
+              this.y - size/2,
+              size,
+              size
+            );
+          }else{
+            const grad = ctx.createRadialGradient(
+              this.x-r*0.3,this.y-r*0.3,r*0.1,
+              this.x,this.y,r
+            );
+            grad.addColorStop(0,'rgba(148,163,184,0.4)');
+            grad.addColorStop(1,'rgba(15,23,42,0.9)');
+            ctx.fillStyle=grad;
+            ctx.fillRect(this.x-r,this.y-r,r*2,r*2);
+          }
+          ctx.restore();
+          return;
+        }
+
+        if(this.cluster==='casino'){
+          const r=this.radius;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(this.x,this.y,r,0,Math.PI*2);
+          ctx.clip();
+          if(casinoBubbleImg.complete && casinoBubbleImg.naturalWidth>0){
+            const size=r*2;
+            ctx.drawImage(casinoBubbleImg,this.x-size/2,this.y-size/2,size,size);
+          }else{
+            ctx.fillStyle='#111827';
+            ctx.fillRect(this.x-r,this.y-r,r*2,r*2);
+          }
+          ctx.restore();
+          return;
+        }
+
         ctx.shadowColor=withAlpha(this.color[0],0.04);
         ctx.shadowBlur=this.radius*0.08;
+
         const grad=ctx.createRadialGradient(
           this.x-this.radius*0.3,this.y-this.radius*0.3,this.radius*0.1,
           this.x,this.y,this.radius
@@ -497,94 +841,187 @@
         ctx.beginPath();ctx.arc(this.x,this.y,this.radius,0,Math.PI*2);
         ctx.fillStyle=grad;ctx.fill();
         ctx.shadowColor='transparent';
+
         if(!this.isBackground){
           ctx.strokeStyle='rgba(248,250,252,0.18)';
           ctx.lineWidth=0.8;ctx.stroke();
         }
+
         if(this.label){
           ctx.fillStyle='rgba(255,255,255,0.92)';
           ctx.font=`bold ${Math.max(10,this.radius/3.5)}px -apple-system,sans-serif`;
           ctx.textAlign='center';ctx.textBaseline='middle';
           ctx.fillText(this.label,this.x,this.y);
         }
+
         ctx.restore();
       }
       update(){
-        if(this.isDragging || this.isBackground) return;
+        if(this.isBackground || this.isDragging)return;
         this.floatOffset+=this.floatSpeed;
         const fx=Math.sin(this.floatOffset)*0.15;
         const fy=Math.cos(this.floatOffset*0.9)*0.15;
         this.x+=this.vx+fx;
         this.y+=this.vy+fy;
+
         if(this.x-this.radius<0){this.x=this.radius;this.vx*=-0.8;}
         if(this.x+this.radius>width){this.x=width-this.radius;this.vx*=-0.8;}
         if(this.y-this.radius<navHeight){this.y=navHeight+this.radius;this.vy*=-0.8;}
         if(this.y+this.radius>height){this.y=height-this.radius;this.vy*=-0.8;}
         this.vx*=0.995;this.vy*=0.995;
+
+        if(this.fuseBurning&&!this.exploded&&this.cluster==='bomb'){
+          this.fuseProgress+=0.032;
+          if(this.fuseProgress>=1){this.fuseProgress=1;this.triggerExplosion();}
+        }
       }
       contains(mx,my){
         const dx=mx-this.x,dy=my-this.y;
         return dx*dx+dy*dy<this.radius*this.radius;
       }
+      triggerExplosion(){
+        if(this.exploded)return;
+        this.exploded=true;
+        createExplosion(this.x,this.y,this.radius);
+        const audio=document.getElementById('explosionSound');
+        if(audio){audio.currentTime=0;audio.play().catch(()=>{});}
+        showAboutModal();
+      }
     }
 
     const mainBubbles=bubbleData.map(d=>new Bubble(d,false));
+
     const backgroundBubbles=[];
-    for(let i=0;i<70;i++){
-      const r=5+Math.random()*8;
-      const x=Math.random()*width;
-      const y=navHeight+Math.random()*(height-navHeight);
-      backgroundBubbles.push(new Bubble({label:'',radius:r,x,y,color:['#94a3b8','#64748b','#020617']},true));
+    const backgroundCount=80;
+    function isFarFromMain(x,y,r){
+      for(const b of mainBubbles){
+        const dx=x-b.x,dy=y-b.y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<b.radius+r+8)return false;
+      }
+      return true;
+    }
+    for(let i=0;i<backgroundCount;i++){
+      let placed=false,tries=0;
+      while(!placed&&tries<40){
+        const r=5+Math.random()*8;
+        const x=Math.random()*width;
+        const y=navHeight+Math.random()*(height-navHeight);
+        if(isFarFromMain(x,y,r)){
+          backgroundBubbles.push(
+            new Bubble(
+              {label:'',radius:r,x,y,color:['#94a3b8','#64748b','#020617'],cluster:null},
+              true
+            )
+          );
+          placed=true;
+        }
+        tries++;
+      }
     }
 
+    const explosionParticles=[];
+    function createExplosion(x,y,r){
+      const count=18;
+      for(let i=0;i<count;i++){
+        const ang=(Math.PI*2*i)/count;
+        const s=2+Math.random()*2;
+        explosionParticles.push({
+          x,y,
+          vx:Math.cos(ang)*s,
+          vy:Math.sin(ang)*s,
+          life:1,
+          size:3+Math.random()*2,
+          color:i%2===0?'#fde68a':'#fb7185'
+        });
+      }
+    }
+    function drawExplosions(){
+      for(let i=explosionParticles.length-1;i>=0;i--){
+        const p=explosionParticles[i];
+        p.x+=p.vx;p.y+=p.vy;
+        p.vx*=0.98;p.vy*=0.98;
+        p.life-=0.04;
+        if(p.life<=0){explosionParticles.splice(i,1);continue;}
+        ctx.save();ctx.globalAlpha=Math.max(0,p.life);
+        ctx.fillStyle=p.color;
+        ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    const aboutOverlay=document.getElementById('aboutOverlay');
+    const aboutCloseBtn=document.getElementById('aboutCloseBtn');
+    function showAboutModal(){aboutOverlay.style.display='flex';}
+    function hideAboutModal(){aboutOverlay.style.display='none';}
+    aboutCloseBtn.addEventListener('click',hideAboutModal);
+    aboutOverlay.addEventListener('click',e=>{if(e.target===aboutOverlay)hideAboutModal();});
+
     function applySpringForces(dt){
-      connections.forEach(c=>{
-        const a=mainBubbles[c.a],b=mainBubbles[c.b];
-        const dx=b.x-a.x,dy=b.y-a.y;
+      connections.forEach(conn=>{
+        const a=mainBubbles[conn.a];
+        const b=mainBubbles[conn.b];
+        const dx=b.x-a.x;
+        const dy=b.y-a.y;
         const dist=Math.sqrt(dx*dx+dy*dy)||0.001;
-        if(c.restLength==null)c.restLength=dist;
+        if(conn.restLength==null)conn.restLength=dist;
+
         const dirX=dx/dist,dirY=dy/dist;
-        const stretch=dist-c.restLength;
-        const spring=c.stiffness*stretch;
-        const relVx=b.vx-a.vx,relVy=b.vy-a.vy;
-        const damping=c.damping*(relVx*dirX+relVy*dirY);
-        const total=spring+damping;
+        const stretch=dist-conn.restLength;
+        const springForce=conn.stiffness*stretch;
+
+        const relVx=b.vx-a.vx;
+        const relVy=b.vy-a.vy;
+        const dampingForce=conn.damping*(relVx*dirX+relVy*dirY);
+
+        const total=springForce+dampingForce;
         const fx=dirX*total,fy=dirY*total;
+
         if(!a.isDragging){a.vx+=fx/a.radius;a.vy+=fy/a.radius;}
         if(!b.isDragging){b.vx-=fx/b.radius;b.vy-=fy/b.radius;}
       });
     }
+
     function drawConnections(){
-      ctx.save();ctx.setLineDash([4,4]);
-      connections.forEach(c=>{
-        const a=mainBubbles[c.a],b=mainBubbles[c.b];
-        const dx=b.x-a.x,dy=b.y-a.y;
+      ctx.save();
+      ctx.setLineDash([4,4]);
+      connections.forEach(conn=>{
+        const b1=mainBubbles[conn.a];
+        const b2=mainBubbles[conn.b];
+        const dx=b2.x-b1.x,dy=b2.y-b1.y;
         const dist=Math.sqrt(dx*dx+dy*dy)||0.001;
         const angle=Math.atan2(dy,dx);
-        const x1=a.x+Math.cos(angle)*a.radius;
-        const y1=a.y+Math.sin(angle)*a.radius;
-        const x2=b.x-Math.cos(angle)*b.radius;
-        const y2=b.y-Math.sin(angle)*b.radius;
+
+        const x1=b1.x+Math.cos(angle)*b1.radius;
+        const y1=b1.y+Math.sin(angle)*b1.radius;
+        const x2=b2.x-Math.cos(angle)*b2.radius;
+        const y2=b2.y-Math.sin(angle)*b2.radius;
+
         ctx.strokeStyle='rgba(148,163,184,0.32)';
         ctx.lineWidth=1;
+
         ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
       });
-      ctx.setLineDash([]);ctx.restore();
+      ctx.setLineDash([]);
+      ctx.restore();
     }
+
     function checkCollisions(){
       for(let i=0;i<mainBubbles.length;i++){
         for(let j=i+1;j<mainBubbles.length;j++){
-          const a=mainBubbles[i],b=mainBubbles[j];
-          const dx=b.x-a.x,dy=b.y-a.y;
-          const dist=Math.sqrt(dx*dx+dy*dy);
-          const min=a.radius+b.radius;
-          if(dist<min && dist>0){
-            const angle=Math.atan2(dy,dx);
-            const overlap=min-dist;
-            const mx=Math.cos(angle)*overlap*0.5;
-            const my=Math.sin(angle)*overlap*0.5;
-            if(!a.isDragging){a.x-=mx;a.y-=my;}
-            if(!b.isDragging){b.x+=mx;b.y+=my;}
+          const b1 = mainBubbles[i];
+          const b2 = mainBubbles[j];
+          const dx = b2.x - b1.x;
+          const dy = b2.y - b1.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          const minDist = b1.radius + b2.radius;
+          if(dist < minDist && dist > 0){
+            const ang = Math.atan2(dy, dx);
+            const overlap = minDist - dist;
+            const mx = Math.cos(ang) * overlap * 0.5;
+            const my = Math.sin(ang) * overlap * 0.5;
+            if(!b1.isDragging){ b1.x -= mx; b1.y -= my; b1.vx -= mx * 0.06; b1.vy -= my * 0.06; }
+            if(!b2.isDragging){ b2.x += mx; b2.y += my; b2.vx += mx * 0.06; b2.vy += my * 0.06; }
           }
         }
       }
@@ -616,15 +1053,18 @@
     const bgVolume=document.getElementById('bgVolume');
     let bgStarted=false;
     const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+
     bgVolume.addEventListener('input',()=>{
       const v=parseFloat(bgVolume.value||'0');
-      if(isIOS) bgMusic.muted=(v===0); else {bgMusic.muted=false;bgMusic.volume=v;}
+      if(isIOS){bgMusic.muted=(v===0);}
+      else{bgMusic.muted=false;bgMusic.volume=v;}
     });
+
     function startBgOnce(){
       if(bgStarted)return;
       bgStarted=true;
       const v=parseFloat(bgVolume.value||'0.6');
-      if(isIOS) bgMusic.muted=(v===0); else bgMusic.volume=v;
+      if(isIOS)bgMusic.muted=(v===0);else bgMusic.volume=v;
       bgMusic.play().catch(()=>{});
     }
 
@@ -633,18 +1073,35 @@
       const rect=canvas.getBoundingClientRect();
       const mx=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;
       const my=(e.touches?e.touches[0].clientY:e.clientY)-rect.top;
-      const casinoBubble=mainBubbles.find(b=>b.cluster==='casino');
-      const snowBubble=mainBubbles.find(b=>b.cluster==='snow');
-      const aboutBubble=mainBubbles.find(b=>b.cluster==='bomb');
 
-      if(casinoBubble && casinoBubble.contains(mx,my)){openCasino();return;}
-      if(aboutBubble && aboutBubble.contains(mx,my)){showAboutModal();return;}
-      if(snowBubble && snowBubble.contains(mx,my)){
-        // ici tu peux ouvrir ton overlay Snowball si tu en as un
+      const bomb=mainBubbles.find(b=>b.cluster==='bomb');
+      if(bomb&&bomb.contains(mx,my)){
+        if(!bomb.fuseBurning&&!bomb.exploded){
+          bomb.fuseBurning=true;bomb.fuseProgress=0;
+        }else if(bomb.exploded){showAboutModal();}
         return;
       }
-      if(!e.touches && e.type==='mousedown') startDrag(mx,my);
-      else if(e.touches && e.type==='touchstart') startDrag(mx,my);
+
+      const ca=mainBubbles.find(b=>b.cluster==='ca');
+      if(ca&&ca.contains(mx,my)){openGameOverlay();return;}
+
+      const snow = mainBubbles.find(b=>b.cluster==='snow');
+      if(snow && snow.contains(mx,my)){openSnowOverlay();return;}
+
+      const bubble50k = mainBubbles.find(b=>b.label === '$50K');
+      if(bubble50k && bubble50k.contains(mx,my)){openChallenge50k();return;}
+
+      const bubble100k = mainBubbles.find(b=>b.label === '$100K');
+      if(bubble100k && bubble100k.contains(mx,my)){openChallenge100k();return;}
+
+      const comingBubble = mainBubbles.find(b=>b.cluster === 'coming');
+      if(comingBubble && comingBubble.contains(mx,my)){openComing();return;}
+
+      const casinoBubble = mainBubbles.find(b=>b.cluster === 'casino');
+      if(casinoBubble && casinoBubble.contains(mx,my)){openCasino();return;}
+
+      if(!e.touches&&e.type==='mousedown')startDrag(mx,my);
+      else if(e.touches&&e.type==='touchstart')startDrag(mx,my);
     }
 
     canvas.addEventListener('mousedown',handleCanvasClick);
@@ -664,189 +1121,383 @@
     canvas.addEventListener('touchend',endDrag);
     canvas.addEventListener('touchcancel',endDrag);
 
+    const gameOverlayEl=document.getElementById('gameOverlay');
+    const gameCloseBtn=document.getElementById('gameCloseBtn');
+    const gameCanvas=document.getElementById('gameCanvas');
+    const gameArea=document.getElementById('gameArea');
+    const gctx=gameCanvas.getContext('2d');
+    const gameJumpsEl=document.getElementById('gameJumps');
+    const gameStatusEl=document.getElementById('gameStatus');
+    const gameProgressFill=document.getElementById('gameProgressFill');
+    const gameResult=document.getElementById('gameResult');
+    const gameResultText=document.getElementById('gameResultText');
+    const contractAddressEl=document.getElementById('contractAddress');
+    const gameRestartBtn=document.getElementById('gameRestartBtn');
+    const ggGif=document.getElementById('ggGif');
+
+    const CONTRACT_ADDRESS='So1anaContractAddress1234567890';
+
+    let runnerPlaying=false,runnerGameOver=false,runnerWon=false;
+    let runnerJumps=0,runnerProgress=0;
+    const runnerTargetProgress=1;
+
+    const runner={x:40,y:0,size:40,vy:0,onGround:false};
+    const ground={y:180,height:4};
+    const obstacles=[];
+    let obstacleTimer=0,obstacleInterval=1100,speed=4.2,nextObstacleType=0;
+
+    const runnerImg=new Image();runnerImg.src='pump-player.png';
+    const obstacleImgs=[
+      (()=>{const i=new Image();i.src='troll.png';return i;})(),
+      (()=>{const i=new Image();i.src='pepe.png';return i;})(),
+      (()=>{const i=new Image();i.src='wojak.png';return i;})()
+    ];
+
+    function resizeRunnerCanvas(){
+      const rect=gameArea.getBoundingClientRect();
+      gameCanvas.width=rect.width;gameCanvas.height=rect.height;
+    }
+    resizeRunnerCanvas();
+
+    let bubblesPaused = false;
+
+    function openGameOverlay(){
+      gameOverlayEl.style.display = 'flex';
+      startRunnerGame();
+      bubblesPaused = true;
+    }
+    function closeGameOverlay(){
+      gameOverlayEl.style.display = 'none';
+      stopRunnerGame();
+      bubblesPaused = false;
+    }
+    gameCloseBtn.addEventListener('click',closeGameOverlay);
+    gameOverlayEl.addEventListener('click',e=>{if(e.target===gameOverlayEl)closeGameOverlay();});
+
+    function resetRunnerState(){
+      runnerPlaying=true;runnerGameOver=false;runnerWon=false;
+      runnerJumps=0;runnerProgress=0;
+      gameJumpsEl.textContent='0';
+      gameStatusEl.textContent='RUN';
+      gameProgressFill.style.width='0%';
+      gameResult.style.display='none';
+      gameResultText.textContent='';
+      contractAddressEl.textContent='';
+      if(ggGif)ggGif.style.display='none';
+
+      obstacles.length=0;obstacleTimer=0;obstacleInterval=1100;
+      speed=4.2;nextObstacleType=0;
+      runner.x=40;runner.y=ground.y-runner.size;
+      runner.vy=0;runner.onGround=true;
+    }
+    function startRunnerGame(){resizeRunnerCanvas();resetRunnerState();lastRunnerTime=null;requestAnimationFrame(runnerLoop);}
+    function stopRunnerGame(){runnerPlaying=false;}
+
+    function runnerJump(){
+      if(!runnerPlaying||runnerGameOver)return;
+      if(runner.onGround){
+        runner.vy=-10.5;runner.onGround=false;
+        runnerJumps++;gameJumpsEl.textContent=String(runnerJumps);
+        const step=0.12;
+        runnerProgress=Math.min(runnerProgress+step,runnerTargetProgress);
+      }
+    }
+
+    function spawnObstacle(){
+      const size=36,type=nextObstacleType;
+      nextObstacleType=(nextObstacleType+1)%obstacleImgs.length;
+      obstacles.push({x:gameCanvas.width+size,y:ground.y-size,size,type});
+    }
+    function updateRunner(dt){
+      if(!runnerPlaying)return;
+      runner.vy+=24*dt;runner.y+=runner.vy;
+      if(runner.y+runner.size>=ground.y){
+        runner.y=ground.y-runner.size;runner.vy=0;runner.onGround=true;
+      }
+
+      obstacleTimer+=dt*1000;
+      if(obstacleTimer>obstacleInterval){
+        obstacleTimer=0;spawnObstacle();
+        obstacleInterval=Math.max(600,obstacleInterval-20);
+        speed+=0.12;
+      }
+
+      for(let i=obstacles.length-1;i>=0;i--){
+        const o=obstacles[i];
+        o.x-=speed;
+        if(o.x+o.size<0)obstacles.splice(i,1);
+      }
+
+      for(const o of obstacles){
+        if(runner.x<o.x+o.size&&runner.x+runner.size>o.x&&
+           runner.y<o.y+o.size&&runner.y+runner.size>o.y){
+          runnerGameOver=true;runnerPlaying=false;runnerWon=false;
+          gameStatusEl.textContent='FAIL';
+          gameResult.style.display='block';
+          gameResultText.textContent='You hit an obstacle. Press Restart to try again.';
+          if(ggGif)ggGif.style.display='none';
+          return;
+        }
+      }
+
+      if(!runnerGameOver){
+        gameProgressFill.style.width=(runnerProgress*100).toFixed(0)+'%';
+        if(runnerProgress>=runnerTargetProgress){
+          runnerGameOver=true;runnerPlaying=false;runnerWon=true;
+          gameStatusEl.textContent='GG';
+          gameResult.style.display='block';
+          gameResultText.textContent="GG LET'S PUMP IT BUDDY ! Here is the Contract Address:";
+          contractAddressEl.textContent=CONTRACT_ADDRESS;
+          if(ggGif){
+            ggGif.style.display='block';
+            ggGif.src='gg-pump.gif?'+Date.now();
+          }
+        }
+      }
+    }
+
+    function drawRunner(){
+      gctx.clearRect(0,0,gameCanvas.width,gameCanvas.height);
+      gctx.fillStyle='#020617';
+      gctx.fillRect(0,0,gameCanvas.width,gameCanvas.height);
+      gctx.fillStyle='rgba(30,64,175,0.9)';
+      gctx.fillRect(0,ground.y,gameCanvas.width,gameCanvas.height-ground.y);
+
+      if(runnerImg.complete&&runnerImg.naturalWidth>0){
+        gctx.drawImage(runnerImg,runner.x,runner.y,runner.size,runner.size);
+      }else{
+        gctx.fillStyle='#4ADE80';
+        gctx.fillRect(runner.x,runner.y,runner.size,runner.size);
+      }
+
+      obstacles.forEach(o=>{
+        const img=obstacleImgs[o.type];
+        if(img&&img.complete&&img.naturalWidth>0){
+          const base=o.size;
+          let w=base,h=base,extraY=0;
+          if(o.type===2){w=base*1.6;h=base*1.6;extraY=1;}
+          const x=o.x-(w-base)/2;
+          const y=o.y-(h-base)+extraY;
+          gctx.drawImage(img,x,y,w,h);
+        }else{
+          gctx.fillStyle='#F97316';
+          gctx.fillRect(o.x,o.y,o.size,o.size);
+        }
+      });
+    }
+
+    let lastRunnerTime=null;
+    function runnerLoop(ts){
+      if(!runnerPlaying&&!runnerGameOver){drawRunner();return;}
+      if(lastRunnerTime==null)lastRunnerTime=ts;
+      const dt=(ts-lastRunnerTime)/1000;lastRunnerTime=ts;
+      updateRunner(dt);drawRunner();
+      if(runnerPlaying)requestAnimationFrame(runnerLoop);
+    }
+
+    gameArea.addEventListener('click',runnerJump);
+    window.addEventListener('keydown',e=>{
+      if(['Space','ArrowUp','KeyW'].includes(e.code))runnerJump();
+    });
+    gameRestartBtn.addEventListener('click',()=>{
+      resetRunnerState();lastRunnerTime=null;requestAnimationFrame(runnerLoop);
+    });
+
+    async function copyToClipboard(text){
+      try{
+        if(navigator.clipboard&&navigator.clipboard.writeText){
+          await navigator.clipboard.writeText(text);
+        }else{
+          const t=document.createElement('textarea');
+          t.value=text;t.style.position='fixed';t.style.left='-9999px';
+          document.body.appendChild(t);t.focus();t.select();
+          document.execCommand('copy');document.body.removeChild(t);
+        }
+        gameResultText.textContent='Copied! Contract Address:';
+      }catch(e){console.error('Copy failed',e);}
+    }
+    contractAddressEl.addEventListener('click',()=>{
+      if(!runnerWon)return;
+      const txt=contractAddressEl.textContent.trim();
+      if(txt)copyToClipboard(txt);
+    });
+
     window.addEventListener('resize',()=>{
       width=canvas.width=window.innerWidth;
       height=canvas.height=window.innerHeight;
+      resizeRunnerCanvas();
     });
 
     let lastTime=null;
-    function animate(ts){
-      if(lastTime==null) lastTime=ts;
-      const dt=(ts-lastTime)/1000;lastTime=ts;
-      ctx.fillStyle='#050814';ctx.fillRect(0,0,width,height);
-      applySpringForces(dt);
-      checkCollisions();
-      drawConnections();
-      backgroundBubbles.forEach(b=>b.draw());
-      mainBubbles.forEach(b=>{b.update();b.draw();});
+    function animate(timestamp){
+      if(lastTime==null) lastTime = timestamp;
+      const dt = (timestamp - lastTime) / 1000;
+      lastTime = timestamp;
+
+      ctx.fillStyle = '#050814';
+      ctx.fillRect(0,0,width,height);
+
+      if (!bubblesPaused){
+        applySpringForces(dt);
+        checkCollisions();
+        drawConnections();
+        backgroundBubbles.forEach(b=>{ b.draw(); });
+        mainBubbles.forEach(b=>{ b.update(); b.draw(); });
+        drawExplosions();
+      } else {
+        drawConnections();
+        backgroundBubbles.forEach(b=>{ b.draw(); });
+        mainBubbles.forEach(b=>{ b.draw(); });
+        drawExplosions();
+      }
+
       requestAnimationFrame(animate);
     }
     animate();
 
-    /* ---- MINI CASINO LOGIC avec 3 niveaux de gains ---- */
-const slotSpinBtn = document.getElementById('slotSpinBtn');
-const reel1 = document.getElementById('reel1');
-const reel2 = document.getElementById('reel2');
-const reel3 = document.getElementById('reel3');
-const slotStatus = document.getElementById('slotStatus');
-const slotAttempts = document.getElementById('slotAttempts');
+    /* ================= MINI CASINO LOGIC ================= */
+    const slotSpinBtn=document.getElementById('slotSpinBtn');
+    const reel1=document.getElementById('reel1');
+    const reel2=document.getElementById('reel2');
+    const reel3=document.getElementById('reel3');
+    const slotStatus=document.getElementById('slotStatus');
+    const slotAttempts=document.getElementById('slotAttempts');
 
-const SLOT_MAX_ATTEMPTS = 3;
-const SLOT_WINDOW_MS = 60 * 60 * 1000; // 1h
-const SLOT_STORAGE_KEY = 'slot_session_v5';
+    const SLOT_MAX_ATTEMPTS=3;
+    const SLOT_WINDOW_MS=60*60*1000;
+    const SLOT_STORAGE_KEY='slot_session_v5';
 
-function loadSlotSession(){
-  try{
-    const raw = localStorage.getItem(SLOT_STORAGE_KEY);
-    if(!raw) return { start: Date.now(), attempts: 0 };
-    const obj = JSON.parse(raw);
-    if(typeof obj.start !== 'number' || typeof obj.attempts !== 'number'){
-      return { start: Date.now(), attempts: 0 };
+    function loadSlotSession(){
+      try{
+        const raw=localStorage.getItem(SLOT_STORAGE_KEY);
+        if(!raw) return {start:Date.now(),attempts:0};
+        const obj=JSON.parse(raw);
+        if(typeof obj.start!=='number' || typeof obj.attempts!=='number') return {start:Date.now(),attempts:0};
+        if(Date.now()-obj.start>SLOT_WINDOW_MS) return {start:Date.now(),attempts:0};
+        return obj;
+      }catch(e){
+        return {start:Date.now(),attempts:0};
+      }
     }
-    if(Date.now() - obj.start > SLOT_WINDOW_MS){
-      return { start: Date.now(), attempts: 0 };
-    }
-    return obj;
-  }catch(e){
-    return { start: Date.now(), attempts: 0 };
-  }
-}
-function saveSlotSession(s){
-  localStorage.setItem(SLOT_STORAGE_KEY, JSON.stringify(s));
-}
+    function saveSlotSession(s){localStorage.setItem(SLOT_STORAGE_KEY,JSON.stringify(s));}
 
-let slotSession = loadSlotSession();
-updateSlotUI();
-
-function updateSlotUI(){
-  const remaining = SLOT_MAX_ATTEMPTS - slotSession.attempts;
-  slotStatus.classList.remove('win','lose','cooldown');
-  if(remaining > 0){
-    slotAttempts.textContent = `Attempts left: ${remaining}/3`;
-    slotSpinBtn.disabled = false;
-  }else{
-    const msLeft = SLOT_WINDOW_MS - (Date.now() - slotSession.start);
-    const mins = Math.max(1, Math.ceil(msLeft / 60000));
-    slotSpinBtn.disabled = true;
-    slotStatus.textContent = 'RETRY YOUR CHANCE IN 1H';
-    slotStatus.classList.add('cooldown');
-    slotAttempts.textContent = `Next reset in ~${mins} min`;
-  }
-}
-
-function makeSymbolElement(symbol){
-  const span = document.createElement('span');
-  if(symbol === '7'){
-    span.textContent = '7';
-    span.className = 'seven';
-  }else if(symbol === 'BAR'){
-    span.textContent = 'BAR';
-    span.className = 'bar';
-  }else if(symbol === 'BELL'){
-    span.textContent = '🔔';
-    span.className = 'bell';
-  }else{
-    span.textContent = symbol;
-  }
-  return span;
-}
-function setReelSymbol(reelEl, symbol){
-  reelEl.innerHTML = '';
-  reelEl.appendChild(makeSymbolElement(symbol));
-}
-
-function spinRandomSymbol(){
-  const symbols = ['7','BAR','BELL','🍒','⭐'];
-  return symbols[Math.floor(Math.random() * symbols.length)];
-}
-
-slotSpinBtn.addEventListener('click', () => {
-  slotSession = loadSlotSession();
-  if(slotSession.attempts >= SLOT_MAX_ATTEMPTS){
+    let slotSession=loadSlotSession();
     updateSlotUI();
-    return;
-  }
 
-  slotSpinBtn.disabled = true;
-  slotStatus.textContent = 'Spinning...';
-  slotStatus.classList.remove('win','lose','cooldown');
-
-  const spinDuration = 1200;
-  const start = performance.now();
-
-  function animateReels(t){
-    const elapsed = t - start;
-    const progress = Math.min(1, elapsed / spinDuration);
-    const speedFactor = 1 - Math.pow(progress, 2);
-
-    const o1 = Math.sin(t * 0.015) * speedFactor * 10;
-    const o2 = Math.sin(t * 0.018 + 1) * speedFactor * 12;
-    const o3 = Math.sin(t * 0.02 + 2) * speedFactor * 14;
-
-    reel1.style.transform = `translateY(${o1}px)`;
-    reel2.style.transform = `translateY(${o2}px)`;
-    reel3.style.transform = `translateY(${o3}px)`;
-
-    if(progress < 1){
-      setReelSymbol(reel1, spinRandomSymbol());
-      setReelSymbol(reel2, spinRandomSymbol());
-      setReelSymbol(reel3, spinRandomSymbol());
-      requestAnimationFrame(animateReels);
-    }else{
-      reel1.style.transform = 'translateY(0)';
-      reel2.style.transform = 'translateY(0)';
-      reel3.style.transform = 'translateY(0)';
-
-      // NOUVELLES PROBAS :
-      // 0.4% -> 777 (1 SOL)
-      // 2%   -> BAR BAR BAR (0.3 SOL)
-      // 5%   -> BELL BELL BELL (0.1 SOL)
-      const r = Math.random();
-      let s1, s2, s3;
-      let winMsg = null;
-
-      if(r < 0.004){
-        s1 = s2 = s3 = '7';
-        winMsg = 'GG YOU WIN 1 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
-      }else if(r < 0.004 + 0.02){
-        s1 = s2 = s3 = 'BAR';
-        winMsg = 'GG YOU WIN 0.3 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
-      }else if(r < 0.004 + 0.02 + 0.05){
-        s1 = s2 = s3 = 'BELL';
-        winMsg = 'GG YOU WIN 0.1 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
+    function updateSlotUI(){
+      const remaining=SLOT_MAX_ATTEMPTS-slotSession.attempts;
+      slotStatus.classList.remove('win','lose','cooldown');
+      if(remaining>0){
+        slotAttempts.textContent=`Attempts left: ${remaining}/3`;
+        slotSpinBtn.disabled=false;
       }else{
-        const nonJackpot = ['BAR','BELL','🍒','⭐'];
-        s1 = spinRandomSymbol();
-        s2 = spinRandomSymbol();
-        s3 = spinRandomSymbol();
-        // si par hasard on tombe sur un jackpot, on casse la combinaison
-        if((s1==='7'&&s2==='7'&&s3==='7')||
-           (s1==='BAR'&&s2==='BAR'&&s3==='BAR')||
-           (s1==='BELL'&&s2==='BELL'&&s3==='BELL')){
-          s3 = nonJackpot[Math.floor(Math.random()*nonJackpot.length)];
+        const msLeft=SLOT_WINDOW_MS-(Date.now()-slotSession.start);
+        const mins=Math.max(1,Math.ceil(msLeft/60000));
+        slotSpinBtn.disabled=true;
+        slotStatus.textContent='RETRY YOUR CHANCE IN 1H';
+        slotStatus.classList.add('cooldown');
+        slotAttempts.textContent=`Next reset in ~${mins} min`;
+      }
+    }
+
+    function makeSymbolElement(symbol){
+      const span=document.createElement('span');
+      if(symbol==='7'){span.textContent='7';span.className='seven';}
+      else if(symbol==='BAR'){span.textContent='BAR';span.className='bar';}
+      else if(symbol==='BELL'){span.textContent='🔔';span.className='bell';}
+      else{span.textContent=symbol;}
+      return span;
+    }
+    function setReelSymbol(reelEl,symbol){
+      reelEl.innerHTML='';
+      reelEl.appendChild(makeSymbolElement(symbol));
+    }
+    function spinRandomSymbol(){
+      const symbols=['7','BAR','BELL','🍒','⭐'];
+      return symbols[Math.floor(Math.random()*symbols.length)];
+    }
+
+    slotSpinBtn.addEventListener('click',()=>{
+      slotSession=loadSlotSession();
+      if(slotSession.attempts>=SLOT_MAX_ATTEMPTS){
+        updateSlotUI();return;
+      }
+      slotSpinBtn.disabled=true;
+      slotStatus.textContent='Spinning...';
+      slotStatus.classList.remove('win','lose','cooldown');
+
+      const spinDuration=1200;
+      const start=performance.now();
+
+      function animateReels(t){
+        const elapsed=t-start;
+        const progress=Math.min(1,elapsed/spinDuration);
+        const speedFactor=1-Math.pow(progress,2);
+
+        const o1=Math.sin(t*0.015)*speedFactor*10;
+        const o2=Math.sin(t*0.018+1)*speedFactor*12;
+        const o3=Math.sin(t*0.02+2)*speedFactor*14;
+
+        reel1.style.transform=`translateY(${o1}px)`;
+        reel2.style.transform=`translateY(${o2}px)`;
+        reel3.style.transform=`translateY(${o3}px)`;
+
+        if(progress<1){
+          setReelSymbol(reel1,spinRandomSymbol());
+          setReelSymbol(reel2,spinRandomSymbol());
+          setReelSymbol(reel3,spinRandomSymbol());
+          requestAnimationFrame(animateReels);
+        }else{
+          reel1.style.transform='translateY(0)';
+          reel2.style.transform='translateY(0)';
+          reel3.style.transform='translateY(0)';
+
+          const r=Math.random();
+          let s1,s2,s3,winMsg=null;
+
+          // 0.4%  -> 1 SOL (777)
+          // 2%    -> 0.3 SOL (BAR BAR BAR)
+          // 5%    -> 0.1 SOL (BELL BELL BELL)
+          if(r<0.004){
+            s1=s2=s3='7';
+            winMsg='GG YOU WIN 1 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
+          }else if(r<0.004+0.02){
+            s1=s2=s3='BAR';
+            winMsg='GG YOU WIN 0.3 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
+          }else if(r<0.004+0.02+0.05){
+            s1=s2=s3='BELL';
+            winMsg='GG YOU WIN 0.1 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
+          }else{
+            const nonJackpot=['BAR','BELL','🍒','⭐'];
+            s1=spinRandomSymbol();
+            s2=spinRandomSymbol();
+            s3=spinRandomSymbol();
+            if((s1==='7'&&s2==='7'&&s3==='7')||
+               (s1==='BAR'&&s2==='BAR'&&s3==='BAR')||
+               (s1==='BELL'&&s2==='BELL'&&s3==='BELL')){
+              s3=nonJackpot[Math.floor(Math.random()*nonJackpot.length)];
+            }
+          }
+
+          setReelSymbol(reel1,s1);
+          setReelSymbol(reel2,s2);
+          setReelSymbol(reel3,s3);
+
+          slotSession.attempts++;
+          saveSlotSession(slotSession);
+
+          if(winMsg){
+            slotStatus.textContent=winMsg;
+            slotStatus.classList.add('win');
+          }else{
+            slotStatus.textContent='No win this time.';
+            slotStatus.classList.add('lose');
+          }
+          updateSlotUI();
         }
       }
-
-      setReelSymbol(reel1, s1);
-      setReelSymbol(reel2, s2);
-      setReelSymbol(reel3, s3);
-
-      slotSession.attempts++;
-      saveSlotSession(slotSession);
-
-      if(winMsg){
-        slotStatus.textContent = winMsg;
-        slotStatus.classList.add('win');
-      }else{
-        slotStatus.textContent = 'No win this time.';
-        slotStatus.classList.add('lose');
-      }
-      updateSlotUI();
-    }
-  }
-  requestAnimationFrame(animateReels);
-});
-
+      requestAnimationFrame(animateReels);
+    });
   </script>
 </body>
 </html>
