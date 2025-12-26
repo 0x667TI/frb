@@ -472,6 +472,25 @@
     </div>
   </div>
 
+  <!-- 500K Challenge -->
+  <div class="challenge-overlay" id="challenge500kOverlay">
+    <div class="challenge-modal">
+      <div class="challenge-header">
+        <div class="challenge-title">CHALLENGE 3</div>
+        <button class="challenge-close" id="challenge500kCloseBtn">✕</button>
+      </div>
+      <div class="challenge-body">
+        <div class="challenge-text">
+          Making a tuff in a subway.
+        </div>
+        <div style="margin-top:6px;display:flex;justify-content:center;">
+          <img src="challenge3-500k.gif" alt="Challenge 3 - Making a tuff in a subway"
+               style="max-width:100%;border-radius:12px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- COMING SOON modal -->
   <div class="coming-overlay" id="comingOverlay">
     <div class="coming-modal">
@@ -537,6 +556,7 @@
   <audio id="snowSound" src="snow.mp3" loop preload="auto"></audio>
   <audio id="challenge50kSound" src="challenge-50k.mp3" loop preload="auto"></audio>
   <audio id="challenge100kSound" src="challenge-100k.mp3" loop preload="auto"></audio>
+  <audio id="challenge500kSound" src="challenge-500k.mp3" loop preload="auto"></audio>
   <audio id="comingSound" src="coming-soon.mp3" loop preload="auto"></audio>
   <audio id="casinoSound" src="casino.mp3" loop preload="auto"></audio>
 
@@ -555,6 +575,7 @@
     const snowSound = document.getElementById('snowSound');
     const challenge50kSound = document.getElementById('challenge50kSound');
     const challenge100kSound = document.getElementById('challenge100kSound');
+    const challenge500kSound = document.getElementById('challenge500kSound');
     const comingSound = document.getElementById('comingSound');
     const casinoSound = document.getElementById('casinoSound');
 
@@ -564,13 +585,15 @@
     const challenge50kCloseBtn = document.getElementById('challenge50kCloseBtn');
     const challenge100kOverlay = document.getElementById('challenge100kOverlay');
     const challenge100kCloseBtn = document.getElementById('challenge100kCloseBtn');
+    const challenge500kOverlay = document.getElementById('challenge500kOverlay');
+    const challenge500kCloseBtn = document.getElementById('challenge500kCloseBtn');
     const comingOverlay = document.getElementById('comingOverlay');
     const comingCloseBtn = document.getElementById('comingCloseBtn');
     const casinoOverlay = document.getElementById('casinoOverlay');
     const casinoCloseBtn = document.getElementById('casinoCloseBtn');
 
     function pauseAllSpecialSounds(){
-      [snowSound,challenge50kSound,challenge100kSound,comingSound,casinoSound]
+      [snowSound,challenge50kSound,challenge100kSound,challenge500kSound,comingSound,casinoSound]
         .forEach(s=>s && s.pause());
     }
 
@@ -603,6 +626,11 @@
     function closeChallenge100k(){ closeOverlayWithSound(challenge100kOverlay, challenge100kSound); }
     challenge100kCloseBtn.addEventListener('click', closeChallenge100k);
     challenge100kOverlay.addEventListener('click', e=>{ if(e.target===challenge100kOverlay) closeChallenge100k(); });
+
+    function openChallenge500k(){ openOverlayWithSound(challenge500kOverlay, challenge500kSound); }
+    function closeChallenge500k(){ closeOverlayWithSound(challenge500kOverlay, challenge500kSound); }
+    challenge500kCloseBtn.addEventListener('click', closeChallenge500k);
+    challenge500kOverlay.addEventListener('click', e=>{ if(e.target===challenge500kOverlay) closeChallenge500k(); });
 
     function openComing(){ openOverlayWithSound(comingOverlay, comingSound); }
     function closeComing(){ closeOverlayWithSound(comingOverlay, comingSound); }
@@ -640,8 +668,8 @@
       { label:'', radius:55, x:650, y:230, color:['#e5f2ff','#93c5fd','#1e293b'], cluster:'snow'},
       { label:'CA',    radius:48, x:720,  y:320, color:['#4ADE80','#22C55E','#FFFFFF'], cluster:'ca'},
       { label:'ABOUT', radius:50, x:350,  y:360, color:['#0f172a','#020617','#000000'], cluster:'bomb'},
-      { label:'', radius:45, x:980, y:520, color:palette.cyan, cluster:'coming'}, // Dexscreener
-      { label:'', radius:50, x:1150,y:300, color:palette.pink, cluster:'casino'}  // Casino
+      { label:'', radius:45, x:980, y:520, color:palette.cyan, cluster:'coming'},
+      { label:'', radius:50, x:1150, y:300, color:palette.pink, cluster:'casino'}
     ];
 
     const connections = [
@@ -1090,6 +1118,9 @@
 
       const bubble50k = mainBubbles.find(b=>b.label === '$50K');
       if(bubble50k && bubble50k.contains(mx,my)){openChallenge50k();return;}
+
+      const bubble500k = mainBubbles.find(b=>b.label === '$500K');
+      if(bubble500k && bubble500k.contains(mx,my)){openChallenge500k();return;}
 
       const bubble100k = mainBubbles.find(b=>b.label === '$100K');
       if(bubble100k && bubble100k.contains(mx,my)){openChallenge100k();return;}
