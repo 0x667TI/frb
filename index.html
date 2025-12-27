@@ -1583,7 +1583,7 @@
         const msLeft=SLOT_WINDOW_MS-(Date.now()-slotSession.start);
         const mins=Math.max(1,Math.ceil(msLeft/60000));
         slotSpinBtn.disabled=true;
-        slotStatus.textContent='RETRY YOUR CHANCE IN 4h';
+        slotStatus.textContent='RETRY YOUR CHANCE IN 6h';
         slotStatus.classList.add('cooldown');
         slotAttempts.textContent=`Next reset in ~${mins} min`;
       }
