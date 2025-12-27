@@ -1583,15 +1583,22 @@ const mainBubbles=bubbleData.map(d=>new Bubble(d,false));
    animate();
 
 /* ================= COUNTDOWN TIMER ================= */
+/* ================= COUNTDOWN TIMER ================= */
 function updateCountdown(){
-  const now = new Date();
+  // Obtenir l'heure actuelle en France
+  const nowFrance = new Date().toLocaleString('en-US', { timeZone: 'Europe/Paris' });
+  const now = new Date(nowFrance);
   
-  // Calculer demain à midi (12:00:00)
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  tomorrow.setHours(12, 0, 0, 0);
+  // Calculer midi aujourd'hui
+  const targetNoon = new Date(nowFrance);
+  targetNoon.setHours(12, 0, 0, 0);
   
-  const diff = tomorrow - now;
+  // Si on est déjà passé midi aujourd'hui, viser midi demain
+  let diff = targetNoon - now;
+  if(diff <= 0){
+    targetNoon.setDate(targetNoon.getDate() + 1);
+    diff = targetNoon - now;
+  }
   
   if(diff <= 0){
     document.getElementById('countdownDisplay').textContent = '00:00:00';
@@ -1613,7 +1620,6 @@ function updateCountdown(){
 // Mettre à jour toutes les secondes
 updateCountdown();
 setInterval(updateCountdown, 1000);
-
     /* ================= MINI CASINO LOGIC ================= */
     const slotSpinBtn=document.getElementById('slotSpinBtn');
     const reel1=document.getElementById('reel1');
