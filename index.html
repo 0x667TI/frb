@@ -1553,7 +1553,7 @@
     const slotAttempts=document.getElementById('slotAttempts');
 
     const SLOT_MAX_ATTEMPTS=3;
-    const SLOT_WINDOW_MS=60*60*1000;
+    const SLOT_WINDOW_MS=6*60*60*1000; // 4 heures
     const SLOT_STORAGE_KEY='slot_session_v5';
 
     function loadSlotSession(){
@@ -1583,7 +1583,7 @@
         const msLeft=SLOT_WINDOW_MS-(Date.now()-slotSession.start);
         const mins=Math.max(1,Math.ceil(msLeft/60000));
         slotSpinBtn.disabled=true;
-        slotStatus.textContent='RETRY YOUR CHANCE IN 1H';
+        slotStatus.textContent='RETRY YOUR CHANCE IN 4h';
         slotStatus.classList.add('cooldown');
         slotAttempts.textContent=`Next reset in ~${mins} min`;
       }
@@ -1641,19 +1641,19 @@
           reel2.style.transform='translateY(0)';
           reel3.style.transform='translateY(0)';
 
-          const r=Math.random();
-          let s1,s2,s3,winMsg=null;
+         const r=Math.random();
+let s1,s2,s3,winMsg=null;
 
-          if(r<0.004){
-            s1=s2=s3='7';
-            winMsg='GG YOU WIN 1 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
-          }else if(r<0.004+0.02){
-            s1=s2=s3='BAR';
-            winMsg='GG YOU WIN 0.3 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
-          }else if(r<0.004+0.02+0.05){
-            s1=s2=s3='BELL';
-            winMsg='GG YOU WIN 0.1 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
-          }else{
+if(r<0.0001){  // 0.01%
+  s1=s2=s3='7';
+  winMsg='GG YOU WIN 1 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
+}else if(r<0.0001+0.005){  // 0.5%
+  s1=s2=s3='BAR';
+  winMsg='GG YOU WIN 0.3 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
+}else if(r<0.0001+0.005+0.008){  // 0.8%
+  s1=s2=s3='BELL';
+  winMsg='GG YOU WIN 0.1 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
+}else{
             const nonJackpot=['BAR','BELL','🍒','⭐'];
             s1=spinRandomSymbol();
             s2=spinRandomSymbol();
