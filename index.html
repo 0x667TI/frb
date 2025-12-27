@@ -834,42 +834,33 @@
     };
 
     const bubbleData = [
-      { label:'$50K',  radius:24, x:180,  y:250, color:palette.purple, cluster:'pair1'},
-      { label:'$100K', radius:29, x:280,  y:280, color:palette.purple, cluster:'pair1'},
-      { label:'$500K', radius:32, x:450,  y:200, color:palette.pink,   cluster:'pair2'},
-      { label:'$800K', radius:35, x:580,  y:180, color:palette.pink,   cluster:'pair2'},
-      { label:'$1M',   radius:36, x:700,  y:240, color:palette.pink,   cluster:'pair2'},
-      { label:'$2M',   radius:38, x:820,  y:280, color:palette.pink,   cluster:'pair2'},
-      { label:'$3M',   radius:40, x:500,  y:400, color:palette.green,  cluster:'pair3'},
-      { label:'$5M',   radius:44, x:650,  y:420, color:palette.green,  cluster:'pair3'},
-      { label:'$7M',   radius:48, x:580,  y:540, color:palette.green,  cluster:'pair3'},
-      { label:'$10M',  radius:52, x:850,  y:350, color:palette.cyan,   cluster:'pair4'},
-      { label:'$15M',  radius:56, x:1000, y:400, color:palette.cyan,   cluster:'pair4'},
-      { label:'$20M',  radius:60, x:280,  y:550, color:palette.blue,   cluster:'pair5'},
-      { label:'$40M',  radius:64, x:450,  y:630, color:palette.blue,   cluster:'pair5'},
-      { label:'$60M',  radius:68, x:900,  y:600, color:palette.teal,   cluster:'pair6'},
-      { label:'$100M', radius:72, x:1100, y:650, color:palette.teal,   cluster:'pair6'},
-      { label:'', radius:55, x:650, y:230, color:['#e5f2ff','#93c5fd','#1e293b'], cluster:'snow'},
-      { label:'CA', radius:48, x:720, y:320, color:['#EF4444','#DC2626','#7F1D1D'], cluster:'ca'},
-      { label:'ABOUT', radius:50, x:350,  y:360, color:['#0f172a','#020617','#000000'], cluster:'bomb'},
-      { label:'', radius:45, x:980, y:520, color:palette.cyan, cluster:'coming'},
-      { label:'', radius:50, x:1150, y:300, color:palette.pink, cluster:'casino'}
-    ];
+  { label:'$50K',  radius:38, x:180,  y:250, color:palette.purple, cluster:'pair1'},
+  { label:'$100K', radius:43, x:280,  y:280, color:palette.purple, cluster:'pair1'},
+  { label:'$500K', radius:46, x:450,  y:200, color:palette.pink,   cluster:'pair2'},
+  { label:'$800K', radius:49, x:580,  y:180, color:palette.pink,   cluster:'pair2'},
+  { label:'$1M',   radius:50, x:700,  y:240, color:palette.pink,   cluster:'pair2'},
+  { label:'$2M',   radius:52, x:820,  y:280, color:palette.pink,   cluster:'pair2'},
+  { label:'$3M',   radius:54, x:500,  y:400, color:palette.green,  cluster:'pair3'},
+  { label:'$5M',   radius:58, x:650,  y:420, color:palette.green,  cluster:'pair3'},
+  { label:'$7M',   radius:62, x:580,  y:540, color:palette.green,  cluster:'pair3'},
+  { label:'', radius:60, x:650, y:230, color:['#e5f2ff','#93c5fd','#1e293b'], cluster:'snow'},
+  { label:'CA', radius:54, x:720, y:320, color:['#EF4444','#DC2626','#7F1D1D'], cluster:'ca'},
+  { label:'ABOUT', radius:56, x:350,  y:360, color:['#0f172a','#020617','#000000'], cluster:'bomb'},
+  { label:'', radius:50, x:980, y:520, color:palette.cyan, cluster:'coming'},
+  { label:'', radius:56, x:1150, y:300, color:palette.pink, cluster:'casino'}
+];
 
     const connections = [
-      [0, 1],
-      [2, 3], [3, 4], [4, 5],
-      [6, 7], [7, 8],
-      [9, 10],
-      [11, 12],
-      [13, 14]
-    ].map(([a, b]) => ({
-      a,
-      b,
-      restLength: null,
-      stiffness: 0.014,
-      damping: 0.18
-    }));
+  [0, 1],
+  [2, 3], [3, 4], [4, 5],
+  [6, 7], [7, 8]
+].map(([a, b]) => ({
+  a,
+  b,
+  restLength: null,
+  stiffness: 0.014,
+  damping: 0.18
+}));
 
     function withAlpha(hex,a){
       const v=Math.round(a*255).toString(16).padStart(2,'0');
@@ -886,22 +877,22 @@
     casinoBubbleImg.src = 'casino-bubble.png';
 
     class Bubble{
-      constructor(data,isBackground=false){
-        this.label=data.label||'';
-        this.radius=data.radius;
-        this.x=data.x;this.y=data.y;
-        this.color=data.color || ['#9ca3af','#6b7280','#020617'];
-        this.cluster=data.cluster||null;
-        this.isBackground=isBackground;
-        this.vx = isBackground ? 0 : (Math.random()-0.5)*0.15;
-        this.vy = isBackground ? 0 : (Math.random()-0.5)*0.15;
-        this.isDragging=false;
-        this.floatOffset=Math.random()*Math.PI*2;
-        this.floatSpeed=isBackground ? 0 : (0.003+Math.random()*0.002);
-        this.fuseProgress=0;
-        this.fuseBurning=false;
-        this.exploded=false;
-      }
+  constructor(data,isBackground=false){
+    this.label=data.label||'';
+    this.radius=data.radius;
+    this.x=data.x;this.y=data.y;
+    this.color=data.color || ['#9ca3af','#6b7280','#020617'];
+    this.cluster=data.cluster||null;
+    this.isBackground=isBackground;
+    this.vx = isBackground ? (Math.random()-0.5)*0.02 : (Math.random()-0.5)*0.15;
+    this.vy = isBackground ? (Math.random()-0.5)*0.02 : (Math.random()-0.5)*0.15;
+    this.isDragging=false;
+    this.floatOffset=Math.random()*Math.PI*2;
+    this.floatSpeed=isBackground ? (0.0003+Math.random()*0.0002) : (0.003+Math.random()*0.002);
+    this.fuseProgress=0;
+    this.fuseBurning=false;
+    this.exploded=false;
+  }
       draw(){
         ctx.save();
 
@@ -1069,39 +1060,45 @@
         ctx.restore();
       }
       update(){
-        if(this.isBackground || this.isDragging)return;
-        this.floatOffset+=this.floatSpeed;
-        const fx=Math.sin(this.floatOffset)*0.15;
-        const fy=Math.cos(this.floatOffset*0.9)*0.15;
-        this.x+=this.vx+fx;
-        this.y+=this.vy+fy;
+  if(this.isDragging)return;
+  
+  this.floatOffset+=this.floatSpeed;
+  
+  // Amplitude différente selon si c'est une bulle de fond ou non
+  const amplitude = this.isBackground ? 0.03 : 0.15;
+  const fx=Math.sin(this.floatOffset)*amplitude;
+  const fy=Math.cos(this.floatOffset*0.9)*amplitude;
+  this.x+=this.vx+fx;
+  this.y+=this.vy+fy;
 
-        if(this.x-this.radius<0){this.x=this.radius;this.vx*=-0.8;}
-        if(this.x+this.radius>width){this.x=width-this.radius;this.vx*=-0.8;}
-        if(this.y-this.radius<navHeight){this.y=navHeight+this.radius;this.vy*=-0.8;}
-        if(this.y+this.radius>height){this.y=height-this.radius;this.vy*=-0.8;}
-        this.vx*=0.995;this.vy*=0.995;
+  if(this.x-this.radius<0){this.x=this.radius;this.vx*=-0.8;}
+  if(this.x+this.radius>width){this.x=width-this.radius;this.vx*=-0.8;}
+  if(this.y-this.radius<navHeight){this.y=navHeight+this.radius;this.vy*=-0.8;}
+  if(this.y+this.radius>height){this.y=height-this.radius;this.vy*=-0.8;}
+  this.vx*=0.995;this.vy*=0.995;
 
-        if(this.fuseBurning&&!this.exploded&&this.cluster==='bomb'){
-          this.fuseProgress+=0.032;
-          if(this.fuseProgress>=1){this.fuseProgress=1;this.triggerExplosion();}
-        }
-      }
-      contains(mx,my){
-        const dx=mx-this.x,dy=my-this.y;
-        return dx*dx+dy*dy<this.radius*this.radius;
-      }
-      triggerExplosion(){
-        if(this.exploded)return;
-        this.exploded=true;
-        createExplosion(this.x,this.y,this.radius);
-        const audio=document.getElementById('explosionSound');
-        if(audio){audio.currentTime=0;audio.play().catch(()=>{});}
-        showAboutModal();
-      }
-    }
+  if(this.fuseBurning&&!this.exploded&&this.cluster==='bomb'){
+    this.fuseProgress+=0.032;
+    if(this.fuseProgress>=1){this.fuseProgress=1;this.triggerExplosion();}
+  }
+}
 
-    const mainBubbles=bubbleData.map(d=>new Bubble(d,false));
+contains(mx,my){
+  const dx=mx-this.x,dy=my-this.y;
+  return dx*dx+dy*dy<this.radius*this.radius;
+}
+
+triggerExplosion(){
+  if(this.exploded)return;
+  this.exploded=true;
+  createExplosion(this.x,this.y,this.radius);
+  const audio=document.getElementById('explosionSound');
+  if(audio){audio.currentTime=0;audio.play().catch(()=>{});}
+  showAboutModal();
+}
+}  // <- CETTE ACCOLADE FERME LA CLASSE BUBBLE
+
+const mainBubbles=bubbleData.map(d=>new Bubble(d,false));
 
     const backgroundBubbles=[];
     const backgroundCount=80;
@@ -1116,7 +1113,7 @@
     for(let i=0;i<backgroundCount;i++){
       let placed=false,tries=0;
       while(!placed&&tries<40){
-        const r=5+Math.random()*8;
+        const r=8+Math.random()*12;  // Bulles entre 8 et 20 pixels (au lieu de 5-13)
         const x=Math.random()*width;
         const y=navHeight+Math.random()*(height-navHeight);
         if(isFarFromMain(x,y,r)){
@@ -1568,18 +1565,18 @@
       ctx.fillRect(0,0,width,height);
 
       if (!bubblesPaused){
-        applySpringForces(dt);
-        checkCollisions();
-        drawConnections();
-        backgroundBubbles.forEach(b=>{ b.draw(); });
-        mainBubbles.forEach(b=>{ b.update(); b.draw(); });
-        drawExplosions();
-      } else {
-        drawConnections();
-        backgroundBubbles.forEach(b=>{ b.draw(); });
-        mainBubbles.forEach(b=>{ b.draw(); });
-        drawExplosions();
-      }
+  applySpringForces(dt);
+  checkCollisions();
+  drawConnections();
+  backgroundBubbles.forEach(b=>{ b.update(); b.draw(); });
+  mainBubbles.forEach(b=>{ b.update(); b.draw(); });
+  drawExplosions();
+} else {
+  drawConnections();
+  backgroundBubbles.forEach(b=>{ b.draw(); });
+  mainBubbles.forEach(b=>{ b.draw(); });
+  drawExplosions();
+}
 
       requestAnimationFrame(animate);
     }
