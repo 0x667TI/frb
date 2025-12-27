@@ -57,6 +57,17 @@
     }
     .volume-icon{width:16px;height:16px;fill:#e5e7eb;}
     .volume-slider{width:110px;cursor:pointer;}
+.countdown-timer{
+  display:flex;align-items:center;
+  padding:4px 12px;border-radius:999px;
+  background:rgba(15,23,42,0.85);
+  border:1px solid rgba(148,163,184,0.4);
+  font-size:13px;
+  color:#e5e7eb;
+  font-weight:600;
+  letter-spacing:0.5px;
+  font-variant-numeric:tabular-nums;
+}
 
     #canvas-container{width:100%;height:100vh;position:relative;}
     canvas{display:block;cursor:grab;}
@@ -300,6 +311,8 @@
       .game-modal,.challenge-modal,.coming-modal,.casino-modal{width:90vw;}
       .slot-reel{width:64px;height:88px;}
       .slot-symbol span{font-size:34px;}
+      .countdown-timer{padding:4px 8px;font-size:11px;}
+      .countdown-timer svg{width:14px;height:14px;margin-right:4px;}
     }
   </style>
 </head>
@@ -327,14 +340,24 @@
     </div>
 
     <div class="right-section">
-      <div class="volume-control">
-        <svg class="volume-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M5 9v6h4l5 4V5L9 9H5z" />
-        </svg>
-        <input id="bgVolume" class="volume-slider" type="range" min="0" max="1" step="0.01" value="0.6" />
-      </div>
+  <!-- TIMER EN PREMIER -->
+  <div class="countdown-timer">
+    <svg class="volume-icon" viewBox="0 0 24 24" aria-hidden="true" style="margin-right:6px;">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" fill="none" stroke-width="2"/>
+      <path d="M12 6v6l4 2" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <span id="countdownDisplay">--:--:--</span>
+  </div>
 
-      <div class="socials">
+  <!-- VOLUME EN DEUXIÈME -->
+  <div class="volume-control">
+    <svg class="volume-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 9v6h4l5 4V5L9 9H5z" />
+    </svg>
+    <input id="bgVolume" class="volume-slider" type="range" min="0" max="1" step="0.01" value="0.6" />
+  </div>
+
+  <div class="socials">
         <a class="social-link" href="https://x.com/i/communities/1970108948532318479" target="_blank" rel="noopener noreferrer">
           <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M3 3h4.2l4.1 6.3L15.8 3H21l-7 8.4L21 21h-4.2l-4.3-6.6L8.2 21H3l7-8.6L3 3z" />
@@ -1540,7 +1563,39 @@
 
       requestAnimationFrame(animate);
     }
-    animate();
+   animate();
+
+/* ================= COUNTDOWN TIMER ================= */
+function updateCountdown(){
+  const now = new Date();
+  
+  // Calculer demain à midi (12:00:00)
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(12, 0, 0, 0);
+  
+  const diff = tomorrow - now;
+  
+  if(diff <= 0){
+    document.getElementById('countdownDisplay').textContent = '00:00:00';
+    return;
+  }
+  
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+  
+  const display = 
+    String(hours).padStart(2, '0') + ':' +
+    String(minutes).padStart(2, '0') + ':' +
+    String(seconds).padStart(2, '0');
+  
+  document.getElementById('countdownDisplay').textContent = display;
+}
+
+// Mettre à jour toutes les secondes
+updateCountdown();
+setInterval(updateCountdown, 1000);
 
     /* ================= MINI CASINO LOGIC ================= */
     const slotSpinBtn=document.getElementById('slotSpinBtn');
