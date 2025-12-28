@@ -388,7 +388,7 @@
             <path d="M16.5 5.1c.6.8 1.4 1.4 2.3 1.9.5.2 1 .4 1.5.4V11c-1.2 0-2.3-.3-3.4-.9-.5-.3-1-.6-1.4-1v6.2c0 3-2.4 5.5-5.5 5.5S4.5 18.3 4.5 15.2 6.9 9.7 10 9.7c.4 0 .8 0 1.2.1v3.1c-.4-.2-.8-.3-1.2-.3-1.2 0-2.3 1-2.3 2.5 0 1.4 1.1 2.5 2.4 2.5 1.3 0 2.4-1.1 2.4-2.5V3h3c.1.8.4 1.5.8 2.1z" />
           </svg>
         </a>
-        <a class="social-link" href="https://pump.fun/" target="_blank" rel="noopener noreferrer">
+        <a class="social-link" href="https://pump.fun/coin/6mtbyfaXzQkxYDmapAtx8DM7pxFmYDwgbEncoFJppump" target="_blank" rel="noopener noreferrer">
           <img src="pump-logo.png" alt="pump.fun" class="social-img">
         </a>
       </div>
@@ -1395,7 +1395,7 @@ if(!e.touches&&e.type==='mousedown')startDrag(mx,my);
     const gameRestartBtn=document.getElementById('gameRestartBtn');
     const ggGif=document.getElementById('ggGif');
 
-    const CONTRACT_ADDRESS='So1anaContractAddress1234567890';
+    const CONTRACT_ADDRESS='6mtbyfaXzQkxYDmapAtx8DM7pxFmYDwgbEncoFJppump';
 
     let runnerPlaying=false,runnerGameOver=false,runnerWon=false;
     let runnerJumps=0,runnerProgress=0;
@@ -1621,26 +1621,47 @@ function updateCountdown(){
   const nowFrance = new Date().toLocaleString('en-US', { timeZone: 'Europe/Paris' });
   const now = new Date(nowFrance);
   
-  // Calculer 13h45 aujourd'hui
+  // Calculer mardi prochain à 00h00
   const targetTime = new Date(nowFrance);
-  targetTime.setHours(14, 45, 0, 0);  // 13h45
   
-  // Si on est déjà passé 13h45 aujourd'hui, viser 13h45 demain
+  // Obtenir le jour actuel (0=Dimanche, 1=Lundi, 2=Mardi, etc.)
+  const currentDay = targetTime.getDay();
+  
+  // Calculer combien de jours jusqu'à mardi (2)
+  let daysUntilTuesday;
+  if (currentDay === 0) { // Dimanche
+    daysUntilTuesday = 2;
+  } else if (currentDay === 1) { // Lundi
+    daysUntilTuesday = 1;
+  } else if (currentDay === 2) { // Mardi
+    daysUntilTuesday = 0;
+  } else { // Mercredi à Samedi
+    daysUntilTuesday = (9 - currentDay) % 7;
+  }
+  
+  // Définir la cible à mardi 00h00
+  targetTime.setDate(targetTime.getDate() + daysUntilTuesday);
+  targetTime.setHours(0, 0, 0, 0);
+  
   let diff = targetTime - now;
+  
   if(diff <= 0){
-    targetTime.setDate(targetTime.getDate() + 1);
-    diff = targetTime - now;
-  }  
-  if(diff <= 0){
-    document.getElementById('countdownDisplay').textContent = '00:00:00';
+    document.getElementById('countdownDisplay').textContent = 'STREAM LIVE NOW!';
     return;
   }
   
-  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((diff % (1000 * 60)) / 1000);
   
-  const display = 
+  let display = 'STREAM START IN ';
+  
+  if(days > 0){
+    display += days + 'd ';
+  }
+  
+  display += 
     String(hours).padStart(2, '0') + ':' +
     String(minutes).padStart(2, '0') + ':' +
     String(seconds).padStart(2, '0');
