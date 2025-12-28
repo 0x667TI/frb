@@ -630,23 +630,42 @@
   </div>
 
   <!-- COMING SOON modal -->
-  <div class="coming-overlay" id="comingOverlay">
-    <div class="coming-modal">
-      <div class="coming-header">
-        <div class="coming-title">COMING SOON</div>
-        <button class="coming-close" id="comingCloseBtn">✕</button>
+<div class="coming-overlay" id="comingOverlay">
+  <div class="coming-modal">
+    <div class="coming-header">
+      <div class="coming-title">COMING SOON</div>
+      <button class="coming-close" id="comingCloseBtn">✕</button>
+    </div>
+    <div class="coming-body">
+      <div class="coming-text">
+        COMING SOON!
       </div>
-      <div class="coming-body">
-        <div class="coming-text">
-          COMING SOON!
-        </div>
-        <div style="margin-top:6px;display:flex;justify-content:center;">
-          <img src="coming-soon.png" alt="Coming soon"
-               style="max-width:100%;border-radius:12px;">
-        </div>
+      <div style="margin-top:6px;display:flex;justify-content:center;">
+        <img src="coming-soon.png" alt="Coming soon"
+             style="max-width:100%;border-radius:12px;">
       </div>
     </div>
   </div>
+</div>
+
+<!-- 50M ULTIME CHALLENGE modal -->
+<div class="challenge-overlay" id="challenge50mOverlay">
+  <div class="challenge-modal">
+    <div class="challenge-header">
+      <div class="challenge-title">ULTIME CHALLENGE</div>
+      <button class="challenge-close" id="challenge50mCloseBtn">✕</button>
+    </div>
+    <div class="challenge-body">
+      <div class="challenge-text">
+        Parachute jump in a soccer stadium 🪂⚽
+      </div>
+      <div style="margin-top:6px;display:flex;justify-content:center;">
+        <img src="challenge-50m.gif" alt="Parachute jump in a soccer stadium"
+             style="max-width:100%;border-radius:12px;">
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- MINI CASINO modal -->
   <div class="casino-overlay" id="casinoOverlay">
@@ -701,6 +720,7 @@
   <audio id="challenge5mSound" src="challenge-5m.mp3" loop preload="auto"></audio>
   <audio id="comingSound" src="coming-soon.mp3" loop preload="auto"></audio>
   <audio id="casinoSound" src="casino.mp3" loop preload="auto"></audio>
+  <audio id="challenge50mSound" src="challenge-50m.mp3" loop preload="auto"></audio>
 
   <div id="canvas-container"></div>
 
@@ -748,11 +768,15 @@
     const comingCloseBtn = document.getElementById('comingCloseBtn');
     const casinoOverlay = document.getElementById('casinoOverlay');
     const casinoCloseBtn = document.getElementById('casinoCloseBtn');
+    const challenge50mOverlay = document.getElementById('challenge50mOverlay');
+    const challenge50mCloseBtn = document.getElementById('challenge50mCloseBtn');
+    const challenge50mSound = document.getElementById('challenge50mSound');
 
     function pauseAllSpecialSounds(){
-      [snowSound,challenge50kSound,challenge100kSound,challenge500kSound,challenge800kSound,challenge1mSound,challenge2mSound,challenge3mSound,challenge5mSound,comingSound,casinoSound]
-        .forEach(s=>s && s.pause());
-    }
+     
+  [snowSound,challenge50kSound,challenge100kSound,challenge500kSound,challenge800kSound,challenge1mSound,challenge2mSound,challenge3mSound,challenge5mSound,comingSound,casinoSound,challenge50mSound]
+    .forEach(s=>s && s.pause());
+}
 
     function openOverlayWithSound(overlay, sound){
       overlay.style.display='flex';
@@ -820,9 +844,14 @@
     comingOverlay.addEventListener('click', e=>{ if(e.target===comingOverlay) closeComing(); });
 
     function openCasino(){ openOverlayWithSound(casinoOverlay, casinoSound); }
-    function closeCasino(){ closeOverlayWithSound(casinoOverlay, casinoSound); }
-    casinoCloseBtn.addEventListener('click', closeCasino);
-    casinoOverlay.addEventListener('click', e=>{ if(e.target===casinoOverlay) closeCasino(); });
+function closeCasino(){ closeOverlayWithSound(casinoOverlay, casinoSound); }
+casinoCloseBtn.addEventListener('click', closeCasino);
+casinoOverlay.addEventListener('click', e=>{ if(e.target===casinoOverlay) closeCasino(); });
+
+function openChallenge50m(){ openOverlayWithSound(challenge50mOverlay, challenge50mSound); }
+function closeChallenge50m(){ closeOverlayWithSound(challenge50mOverlay, challenge50mSound); }
+challenge50mCloseBtn.addEventListener('click', closeChallenge50m);
+challenge50mOverlay.addEventListener('click', e=>{ if(e.target===challenge50mOverlay) closeChallenge50m(); });
 
     const palette = {
       purple:['#C084FC','#A855F7','#581C87'],
@@ -847,7 +876,8 @@
   { label:'CA', radius:54, x:720, y:320, color:['#EF4444','#DC2626','#7F1D1D'], cluster:'ca'},
   { label:'ABOUT', radius:56, x:350,  y:360, color:['#0f172a','#020617','#000000'], cluster:'bomb'},
   { label:'', radius:50, x:980, y:520, color:palette.cyan, cluster:'coming'},
-  { label:'', radius:56, x:1150, y:300, color:palette.pink, cluster:'casino'}
+  { label:'', radius:56, x:1150, y:300, color:palette.pink, cluster:'casino'},
+  { label:'$50M', radius:75, x:400, y:500, color:['#FFD700','#FFA500','#B8860B'], cluster:'challenge50m'}
 ];
 
     const connections = [
@@ -1325,9 +1355,12 @@ const mainBubbles=bubbleData.map(d=>new Bubble(d,false));
       if(comingBubble && comingBubble.contains(mx,my)){openComing();return;}
 
       const casinoBubble = mainBubbles.find(b=>b.cluster === 'casino');
-      if(casinoBubble && casinoBubble.contains(mx,my)){openCasino();return;}
+if(casinoBubble && casinoBubble.contains(mx,my)){openCasino();return;}
 
-      if(!e.touches&&e.type==='mousedown')startDrag(mx,my);
+const bubble50m = mainBubbles.find(b=>b.cluster === 'challenge50m');
+if(bubble50m && bubble50m.contains(mx,my)){openChallenge50m();return;}
+
+if(!e.touches&&e.type==='mousedown')startDrag(mx,my);
       else if(e.touches&&e.type==='touchstart')startDrag(mx,my);
     }
 
@@ -1583,23 +1616,21 @@ const mainBubbles=bubbleData.map(d=>new Bubble(d,false));
    animate();
 
 /* ================= COUNTDOWN TIMER ================= */
-/* ================= COUNTDOWN TIMER ================= */
 function updateCountdown(){
   // Obtenir l'heure actuelle en France
   const nowFrance = new Date().toLocaleString('en-US', { timeZone: 'Europe/Paris' });
   const now = new Date(nowFrance);
   
-  // Calculer midi aujourd'hui
-  const targetNoon = new Date(nowFrance);
-  targetNoon.setHours(12, 0, 0, 0);
+  // Calculer 13h45 aujourd'hui
+  const targetTime = new Date(nowFrance);
+  targetTime.setHours(13, 45, 0, 0);  // 13h45
   
-  // Si on est déjà passé midi aujourd'hui, viser midi demain
-  let diff = targetNoon - now;
+  // Si on est déjà passé 13h45 aujourd'hui, viser 13h45 demain
+  let diff = targetTime - now;
   if(diff <= 0){
-    targetNoon.setDate(targetNoon.getDate() + 1);
-    diff = targetNoon - now;
-  }
-  
+    targetTime.setDate(targetTime.getDate() + 1);
+    diff = targetTime - now;
+  }  
   if(diff <= 0){
     document.getElementById('countdownDisplay').textContent = '00:00:00';
     return;
