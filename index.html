@@ -1688,7 +1688,7 @@ setInterval(updateCountdown, 1000);
     const slotAttempts=document.getElementById('slotAttempts');
 
     const SLOT_MAX_ATTEMPTS=3;
-    const SLOT_WINDOW_MS=6*60*60*1000; // 4 heures
+    const SLOT_WINDOW_MS=1*60*60*1000; // 1 heure
     const SLOT_STORAGE_KEY='slot_session_v5';
 
     function loadSlotSession(){
@@ -1718,7 +1718,7 @@ setInterval(updateCountdown, 1000);
         const msLeft=SLOT_WINDOW_MS-(Date.now()-slotSession.start);
         const mins=Math.max(1,Math.ceil(msLeft/60000));
         slotSpinBtn.disabled=true;
-        slotStatus.textContent='RETRY YOUR CHANCE IN 6h';
+        slotStatus.textContent='RETRY YOUR CHANCE IN 1h';
         slotStatus.classList.add('cooldown');
         slotAttempts.textContent=`Next reset in ~${mins} min`;
       }
