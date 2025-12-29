@@ -1628,15 +1628,13 @@ if(!e.touches&&e.type==='mousedown')startDrag(mx,my);
    animate();
 
 /* ================= COUNTDOWN TIMER ================= */
-/* ================= COUNTDOWN TIMER ================= */
 function updateCountdown(){
   // Obtenir l'heure actuelle en France
   const nowFrance = new Date().toLocaleString('en-US', { timeZone: 'Europe/Paris' });
   const now = new Date(nowFrance);
   
-  // Définir la cible à demain 12h00
+  // Définir la cible à aujourd'hui 12h00
   const targetTime = new Date(nowFrance);
-  targetTime.setDate(targetTime.getDate() + 1);
   targetTime.setHours(12, 0, 0, 0);  
   let diff = targetTime - now;
   
