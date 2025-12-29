@@ -1628,33 +1628,16 @@ if(!e.touches&&e.type==='mousedown')startDrag(mx,my);
    animate();
 
 /* ================= COUNTDOWN TIMER ================= */
+/* ================= COUNTDOWN TIMER ================= */
 function updateCountdown(){
   // Obtenir l'heure actuelle en France
   const nowFrance = new Date().toLocaleString('en-US', { timeZone: 'Europe/Paris' });
   const now = new Date(nowFrance);
   
-  // Calculer mardi prochain à 00h00
+  // Définir la cible à demain 12h00
   const targetTime = new Date(nowFrance);
-  
-  // Obtenir le jour actuel (0=Dimanche, 1=Lundi, 2=Mardi, etc.)
-  const currentDay = targetTime.getDay();
-  
-  // Calculer combien de jours jusqu'à mardi (2)
-  let daysUntilTuesday;
-  if (currentDay === 0) { // Dimanche
-    daysUntilTuesday = 2;
-  } else if (currentDay === 1) { // Lundi
-    daysUntilTuesday = 1;
-  } else if (currentDay === 2) { // Mardi
-    daysUntilTuesday = 0;
-  } else { // Mercredi à Samedi
-    daysUntilTuesday = (9 - currentDay) % 7;
-  }
-  
-  // Définir la cible à mardi 00h00
-  targetTime.setDate(targetTime.getDate() + daysUntilTuesday);
-  targetTime.setHours(0, 0, 0, 0);
-  
+  targetTime.setDate(targetTime.getDate() + 1);
+  targetTime.setHours(12, 0, 0, 0);  
   let diff = targetTime - now;
   
   if(diff <= 0){
