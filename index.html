@@ -1667,7 +1667,7 @@ function updateCountdown(){
 // Mettre à jour toutes les secondes
 updateCountdown();
 setInterval(updateCountdown, 1000);
-    /* ================= MINI CASINO LOGIC ================= */
+   /* ================= MINI CASINO LOGIC ================= */
     const slotSpinBtn=document.getElementById('slotSpinBtn');
     const reel1=document.getElementById('reel1');
     const reel2=document.getElementById('reel2');
@@ -1677,21 +1677,85 @@ setInterval(updateCountdown, 1000);
 
     const SLOT_MAX_ATTEMPTS=3;
     const SLOT_WINDOW_MS=1*60*60*1000; // 1 heure
-    const SLOT_STORAGE_KEY='slot_session_v5';
+    const SLOT_STORAGE_KEY='slot_session_v6';
+    const SLOT_BACKUP_KEY='slot_backup_v6';
+    const SLOT_CHECK_KEY='slot_check_v6';
+
+    // Générer un ID de session unique basé sur plusieurs facteurs
+    function getSessionId(){
+      const nav = navigator.userAgent + navigator.language + screen.width + screen.height;
+      let hash = 0;
+      for(let i=0; i<nav.length; i++){
+        hash = ((hash<<5)-hash)+nav.charCodeAt(i);
+        hash = hash & hash;
+      }
+      return 'sess_'+Math.abs(hash);
+    }
 
     function loadSlotSession(){
       try{
+        const sessionId = getSessionId();
+        
+        // Vérifier localStorage principal
         const raw=localStorage.getItem(SLOT_STORAGE_KEY);
-        if(!raw) return {start:Date.now(),attempts:0};
-        const obj=JSON.parse(raw);
-        if(typeof obj.start!=='number' || typeof obj.attempts!=='number') return {start:Date.now(),attempts:0};
-        if(Date.now()-obj.start>SLOT_WINDOW_MS) return {start:Date.now(),attempts:0};
-        return obj;
+        // Vérifier backup
+        const backup=localStorage.getItem(SLOT_BACKUP_KEY);
+        // Vérifier session check
+        const check=localStorage.getItem(SLOT_CHECK_KEY);
+        
+        let data = null;
+        
+        if(raw){
+          const obj=JSON.parse(raw);
+          if(obj.sessionId === sessionId && typeof obj.start==='number' && typeof obj.attempts==='number'){
+            data = obj;
+          }
+        }
+        
+        // Si pas de data, vérifier le backup
+        if(!data && backup){
+          const obj=JSON.parse(backup);
+          if(obj.sessionId === sessionId && typeof obj.start==='number' && typeof obj.attempts==='number'){
+            data = obj;
+          }
+        }
+        
+        // Si pas de data, vérifier le check
+        if(!data && check){
+          const obj=JSON.parse(check);
+          if(obj.sessionId === sessionId && typeof obj.start==='number' && typeof obj.attempts==='number'){
+            data = obj;
+          }
+        }
+        
+        if(!data) return {start:Date.now(), attempts:0, sessionId};
+        
+        // Vérifier si la session a expiré
+        if(Date.now()-data.start>SLOT_WINDOW_MS){
+          return {start:Date.now(), attempts:0, sessionId};
+        }
+        
+        return data;
       }catch(e){
-        return {start:Date.now(),attempts:0};
+        const sessionId = getSessionId();
+        return {start:Date.now(), attempts:0, sessionId};
       }
     }
-    function saveSlotSession(s){localStorage.setItem(SLOT_STORAGE_KEY,JSON.stringify(s));}
+
+    function saveSlotSession(s){
+      try{
+        const data = JSON.stringify(s);
+        // Sauvegarder dans 3 endroits différents
+        localStorage.setItem(SLOT_STORAGE_KEY, data);
+        localStorage.setItem(SLOT_BACKUP_KEY, data);
+        localStorage.setItem(SLOT_CHECK_KEY, data);
+        
+        // Sauvegarder aussi dans sessionStorage
+        sessionStorage.setItem(SLOT_STORAGE_KEY, data);
+      }catch(e){
+        console.error('Save failed',e);
+      }
+    }
 
     let slotSession=loadSlotSession();
     updateSlotUI();
@@ -1764,19 +1828,19 @@ setInterval(updateCountdown, 1000);
           reel2.style.transform='translateY(0)';
           reel3.style.transform='translateY(0)';
 
-         const r=Math.random();
-let s1,s2,s3,winMsg=null;
+          const r=Math.random();
+          let s1,s2,s3,winMsg=null;
 
-if(r<0.0001){  // 0.01%
-  s1=s2=s3='7';
-  winMsg='GG YOU WIN 1 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
-}else if(r<0.0001+0.005){  // 0.5%
-  s1=s2=s3='BAR';
-  winMsg='GG YOU WIN 0.3 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
-}else if(r<0.0001+0.005+0.008){  // 0.8%
-  s1=s2=s3='BELL';
-  winMsg='GG YOU WIN 0.1 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
-}else{
+          if(r<0.0001){  // 0.01%
+            s1=s2=s3='7';
+            winMsg='GG YOU WIN 1 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
+          }else if(r<0.0001+0.005){  // 0.5%
+            s1=s2=s3='BAR';
+            winMsg='GG YOU WIN 0.3 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
+          }else if(r<0.0001+0.005+0.008){  // 0.8%
+            s1=s2=s3='BELL';
+            winMsg='GG YOU WIN 0.1 SOL MAKE A SCREEN AND SEND IT IN COMMUNITY';
+          }else{
             const nonJackpot=['BAR','BELL','🍒','⭐'];
             s1=spinRandomSymbol();
             s2=spinRandomSymbol();
