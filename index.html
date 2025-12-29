@@ -100,7 +100,6 @@
       z-index:1500;
     }
 
-    .about-modal,
     .snow-modal,
     .game-modal,
     .challenge-modal,
@@ -118,11 +117,17 @@
     }
 
     .about-modal{
-      max-width:720px;max-height:70vh;
+      width:min(720px,92vw);
+      max-width:720px;
+      max-height:70vh;
       padding:24px 26px;
       display:flex;flex-direction:column;gap:12px;
+      background:radial-gradient(circle at top,#111827,#020617);
+      border-radius:18px;
+      border:1px solid rgba(148,163,184,0.55);
+      box-shadow:0 18px 45px rgba(0,0,0,0.8);
+      color:#e5e7eb;
     }
-
     .game-modal,
     .challenge-modal,
     .coming-modal,
